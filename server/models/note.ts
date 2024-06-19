@@ -1,6 +1,6 @@
-const { Model, DataTypes } = require('sequelize')
+import { Model, DataTypes } from 'sequelize';
 
-const { sequelize } = require('../util/db')
+import { sequelize } from '../util/db';
 
 class Note extends Model {}
 
@@ -26,6 +26,6 @@ Note.init({
   underscored: true,
   timestamps: false,
   modelName: 'note'
-})
+});
 
-module.exports = Note 
+export default Note;
