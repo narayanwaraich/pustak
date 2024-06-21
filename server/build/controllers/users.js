@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,23 +7,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+import express from 'express';
+// import {Request, Response, NextFunction} from 'express';
+// import { tokenExtractor } from '../util/middleware';
+import { Note, Team, User } from '../models/index.js';
+const router = express.Router();
+/*
+const isAdmin = async (request: Request, response: Response, next: NextFunction) => {
+  const user = await User.findByPk(request.decodedToken.id);
+  if (!user.admin) {
+    return response.status(401).json({ error: 'operation not allowed' });
+  }
+  next();
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const middleware_1 = require("../util/middleware");
-const models_1 = require("../models");
-const router = express_1.default.Router();
-const isAdmin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield models_1.User.findByPk(req.decodedToken.id);
-    if (!user.admin) {
-        return res.status(401).json({ error: 'operation not allowed' });
-    }
-    next();
-});
-router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield models_1.User.findAll({
+*/
+router.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const users = yield User.findAll({
         include: [
             {
                 model: Note,
@@ -41,17 +39,18 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
     res.json(users);
 }));
-router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const user = yield models_1.User.create(req.body);
-        res.json(user);
-    }
-    catch (error) {
-        return res.status(400).json({ error });
-    }
-}));
+/*
+router.post('/', async (req, res) => {
+  try {
+    const user = await User.create(req.body);
+    res.json(user);
+  } catch(error) {
+    return res.status(400).json({ error });
+  }
+});
+*/
 router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield models_1.User.findByPk(req.params.id);
+    const user = yield User.findByPk(req.params.id);
     if (user) {
         res.json(user);
     }
@@ -59,19 +58,21 @@ router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(404).end();
     }
 }));
-router.put('/:username', middleware_1.tokenExtractor, isAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield models_1.User.findOne({
-        where: {
-            username: req.params.username
-        }
-    });
-    if (user) {
-        user.disabled = req.body.disabled;
-        yield user.save();
-        res.json(user);
+/*
+router.put('/:username', tokenExtractor, isAdmin, async (req, res) => {
+  const user = await User.findOne({
+    where: {
+      username: req.params.username
     }
-    else {
-        res.status(404).end();
-    }
-}));
-exports.default = router;
+  });
+
+  if (user) {
+    user.disabled = req.body.disabled;
+    await user.save();
+    res.json(user);
+  } else {
+    res.status(404).end();
+  }
+});
+*/
+export default router;

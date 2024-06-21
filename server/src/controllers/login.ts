@@ -1,11 +1,13 @@
-import { sign } from 'jsonwebtoken';
+// import { sign } from 'jsonwebtoken';
 import express from 'express';
 const router = express.Router();
 
-import { SECRET } from '../util/config';
-import { findOne } from '../models/user';
+// import { SECRET } from '../util/config';
+// import { findOne } from '../models/user';
 
+/*
 router.post('/', async (request, response) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const body = request.body;
 
   const user = await findOne({
@@ -38,5 +40,5 @@ router.post('/', async (request, response) => {
   response.status(200).send({ token, username: user.username, name: user.name });
 
 });
-
+*/
 export default router;

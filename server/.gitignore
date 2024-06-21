@@ -4,3 +4,4 @@ node_modules
 environment.d.ts
 .env
 data
+build

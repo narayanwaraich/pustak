@@ -5,11 +5,8 @@ import tseslint from "typescript-eslint";
 export default [
   {
     files: [
-      "index.ts",
-      "app.ts",
-      "util/*.ts",
-      "models/*.ts",
-      "controllers/*.ts",
+      "src/*.ts",
+      "src/**/*.ts",
       "**/*.ts"
     ],
     languageOptions: {
@@ -19,9 +16,7 @@ export default [
   {
     ignores: [
       "build/",
-      "migrations/",
       "*.d.ts",
-      "*.mjs",
       "**/*.js"
     ],
   },

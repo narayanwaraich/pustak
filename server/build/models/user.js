@@ -1,36 +1,34 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const sequelize_1 = require("sequelize");
-const db_1 = require("../util/db");
-class User extends sequelize_1.Model {
+import { Model, DataTypes } from 'sequelize';
+import { sequelize } from '../util/db.js';
+class User extends Model {
 }
 User.init({
     id: {
-        type: sequelize_1.DataTypes.INTEGER,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
     username: {
-        type: sequelize_1.DataTypes.STRING,
+        type: DataTypes.STRING,
         unique: true,
         allowNull: false
     },
     name: {
-        type: sequelize_1.DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false
     },
     admin: {
-        type: sequelize_1.DataTypes.BOOLEAN,
+        type: DataTypes.BOOLEAN,
         defaultValue: false
     },
     disabled: {
-        type: sequelize_1.DataTypes.BOOLEAN,
+        type: DataTypes.BOOLEAN,
         defaultValue: false
     },
 }, {
-    sequelize: db_1.sequelize,
+    sequelize,
     underscored: true,
     timestamps: false,
     modelName: 'user'
 });
-exports.default = User;
+export default User;

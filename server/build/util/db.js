@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,15 +7,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.rollbackMigration = exports.connectToDatabase = exports.sequelize = void 0;
-const sequelize_1 = require("sequelize");
-const config_1 = require("./config");
-const umzug_1 = require("umzug");
-exports.sequelize = new sequelize_1.Sequelize(config_1.DATABASE_URL);
-const connectToDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
+import { Sequelize } from 'sequelize';
+import { DATABASE_URL } from './config.js';
+import { Umzug, SequelizeStorage, MigrationError } from 'umzug';
+// require('ts-node/register');
+export const sequelize = new Sequelize(String(DATABASE_URL));
+export const connectToDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield exports.sequelize.authenticate();
+        yield sequelize.authenticate();
         yield runMigrations();
         console.log('connected to the database');
     }
@@ -26,26 +24,36 @@ const connectToDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     }
     return null;
 });
-exports.connectToDatabase = connectToDatabase;
 const migrationConfig = {
     migrations: {
-        glob: 'migrations/*.js',
+        glob: ["../migrations/*",{cwd: import.meta.dirname}],
     },
-    storage: new umzug_1.SequelizeStorage({ sequelize: exports.sequelize, tableName: 'migrations' }),
-    context: exports.sequelize.getQueryInterface(),
+    storage: new SequelizeStorage({ sequelize, tableName: 'migrations' }),
+    context: sequelize.getQueryInterface(),
     logger: console,
 };
+const migrator = new Umzug(migrationConfig);
 const runMigrations = () => __awaiter(void 0, void 0, void 0, function* () {
-    const migrator = new umzug_1.Umzug(migrationConfig);
-    const migrations = yield migrator.up();
-    console.log('Migrations up to date', {
-        files: migrations.map((mig) => mig.name),
-    });
+    try {
+        // console.log('migrator is here:', migrator);
+        const pendingMigrations = yield migrator.pending();
+        console.log('pending migrations :',pendingMigrations);
+        console.log(import.meta.dirname);
+        const migrations = yield migrator.up();
+        console.log('all migrations are here:', migrations);
+        console.log('Migrations up to date', {
+            files: migrations.map((mig) => mig.name),
+        });
+    }
+    catch (err) {
+        if (err instanceof MigrationError) {
+            console.error(err.cause);
+        }
+        throw err;
+    }
 });
-const rollbackMigration = () => __awaiter(void 0, void 0, void 0, function* () {
-    yield exports.sequelize.authenticate();
-    const migrator = new umzug_1.Umzug(migrationConfig);
+export const rollbackMigration = () => __awaiter(void 0, void 0, void 0, function* () {
+    yield sequelize.authenticate();
+    const migrator = new Umzug(migrationConfig);
     yield migrator.down();
 });
-exports.rollbackMigration = rollbackMigration;
-// module.exports = { connectToDatabase, sequelize, rollbackMigration }

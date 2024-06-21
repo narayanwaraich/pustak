@@ -1,9 +1,10 @@
 import express from 'express';
-import {Request, Response, NextFunction} from 'express';
-import { tokenExtractor } from '../util/middleware';
+// import {Request, Response, NextFunction} from 'express';
+// import { tokenExtractor } from '../util/middleware';
 import {Note, Team, User} from '../models';
 const router = express.Router();
 
+/*
 const isAdmin = async (request: Request, response: Response, next: NextFunction) => {
   const user = await User.findByPk(request.decodedToken.id);
   if (!user.admin) {
@@ -11,6 +12,7 @@ const isAdmin = async (request: Request, response: Response, next: NextFunction)
   }
   next();
 };
+*/
 
 router.get('/', async (_req, res) => {
   const users = await User.findAll({
@@ -31,6 +33,7 @@ router.get('/', async (_req, res) => {
   res.json(users);
 });
 
+/*
 router.post('/', async (req, res) => {
   try {
     const user = await User.create(req.body);
@@ -39,6 +42,7 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error });
   }
 });
+*/
 
 router.get('/:id', async (req, res) => {
   const user = await User.findByPk(req.params.id);
@@ -49,6 +53,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+/*
 router.put('/:username', tokenExtractor, isAdmin, async (req, res) => {
   const user = await User.findOne({
     where: {
@@ -64,5 +69,6 @@ router.put('/:username', tokenExtractor, isAdmin, async (req, res) => {
     res.status(404).end();
   }
 });
+*/
 
 export default router;
