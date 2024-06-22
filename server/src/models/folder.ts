@@ -20,10 +20,10 @@ Folder.init({
     type: DataTypes.TEXT,
     allowNull: false,
   },
-	parent_id: {
-		type: DataTypes.INTEGER,
-		allowNull: true,
- 	},
+	// parent_id: {
+	// 	type: DataTypes.INTEGER,
+	// 	allowNull: true,
+ 	// },
 }, {
   sequelize,
   underscored: true,

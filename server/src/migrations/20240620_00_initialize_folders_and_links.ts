@@ -19,10 +19,10 @@ export const up: Migration = async({ context: queryInterface }) => {
 		type: DataTypes.TEXT,
 		allowNull: false,
 	},
-	parent_id: {
-		type: DataTypes.INTEGER,
-		allowNull: true,
- 	},
+	// parent_id: {
+	// 	type: DataTypes.INTEGER,
+	// 	allowNull: true,
+ 	// },
 });
   await queryInterface.createTable('links', {
 	id: {
@@ -47,7 +47,11 @@ export const up: Migration = async({ context: queryInterface }) => {
     allowNull: false,
     references: { model: 'folders', key: 'id' },
   });
-};
+  await queryInterface.addColumn('folders', 'parent_id', {
+	type: DataTypes.INTEGER,
+	references: { model: 'folders', key: 'id' },
+   });
+ };
 
 export const down: Migration = async({ context: queryInterface }) => {
   await queryInterface.dropTable('folders');

@@ -1,28 +1,30 @@
-import { Model, DataTypes } from 'sequelize';
-import { sequelize } from '../util/db.js';
-class Note extends Model {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const sequelize_1 = require("sequelize");
+const db_1 = require("../util/db");
+class Note extends sequelize_1.Model {
 }
 Note.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
     content: {
-        type: DataTypes.TEXT,
+        type: sequelize_1.DataTypes.TEXT,
         allowNull: false
     },
     important: {
-        type: DataTypes.BOOLEAN,
+        type: sequelize_1.DataTypes.BOOLEAN,
         allowNull: false,
     },
     date: {
-        type: DataTypes.DATE
+        type: sequelize_1.DataTypes.DATE
     }
 }, {
-    sequelize,
+    sequelize: db_1.sequelize,
     underscored: true,
     timestamps: false,
     modelName: 'note'
 });
-export default Note;
+exports.default = Note;

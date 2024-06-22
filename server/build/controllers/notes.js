@@ -1,10 +1,15 @@
-import express from 'express';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
 // import {RequestHandler} from 'express';
 // import { Op } from 'sequelize';
 // import { Note } from '../models';
 // import { User } from '../models';
 // import { tokenExtractor } from '../util/middleware';
-const router = express.Router();
+const router = express_1.default.Router();
 /*
 const noteFinder:RequestHandler = async (request, _response, next) => {
     request.note = await Note.findByPk(request.params.id);
@@ -76,4 +81,4 @@ router.put('/:id', noteFinder, async (req, res) => {
     }
 });
 */
-export default router;
+exports.default = router;

@@ -1,0 +1,66 @@
+[
+	{
+	    "id": 1,
+	    "addDate": "2020-10-09T01:19:58.000Z",
+	    "lastModified": "2024-04-17T06:52:08.000Z",
+	    "title": "BCIT",
+	    "parent_id": null,
+	    "parentId": null,
+	    "links": [
+		   {
+			  "id": 1,
+			  "addDate": "2024-04-17T06:52:08.000Z",
+			  "title": "Back-End Web Development with Node.js (COMP 3012) - BCIT",
+			  "url": "https://www.bcit.ca/courses/back-end-web-development-with-node-js-comp-3012/#outcomes",
+			  "folderId": 1
+		   },
+		   {
+			  "id": 2,
+			  "addDate": "2024-04-17T06:51:55.000Z",
+			  "title": "Applied DevOps with Kubernetes (COMP 4016) - BCIT",
+			  "url": "https://www.bcit.ca/courses/applied-devops-with-kubernetes-comp-4016/",
+			  "folderId": 1
+		   },
+		   {
+			  "id": 3,
+			  "addDate": "2024-04-17T06:51:33.000Z",
+			  "title": "Agile Product Owner (COMP 2836) - BCIT",
+			  "url": "https://www.bcit.ca/courses/agile-product-owner-comp-2836/",
+			  "folderId": 1
+		   }
+	    ]
+	},
+	{
+	    "id": 2,
+	    "addDate": "2020-10-09T01:22:40.000Z",
+	    "lastModified": "2020-10-09T01:23:26.000Z",
+	    "title": "React",
+	    "parent_id": 1,
+	    "parentId": 1,
+	    "links": [
+		   {
+			  "id": 4,
+			  "addDate": "2020-03-21T02:41:04.000Z",
+			  "title": "Daniel Takeuchi",
+			  "url": "https://daniel-takeuchi.github.io/COMP-2913/docs/what-is-react",
+			  "folderId": 2
+		   },
+		   {
+			  "id": 5,
+			  "addDate": "2020-02-09T05:27:01.000Z",
+			  "title": "ECMAScript 6",
+			  "url": "https://daniel-takeuchi.github.io/COMP-2913/docs/es6-introduction",
+			  "folderId": 2
+		   }
+	    ]
+	},
+	{
+	    "id": 3,
+	    "addDate": "2021-04-05T22:41:45.000Z",
+	    "lastModified": "2021-04-05T22:41:45.000Z",
+	    "title": "Agile - COMP 2833",
+	    "parent_id": 1,
+	    "parentId": 1,
+	    "links": []
+	}
+ ]

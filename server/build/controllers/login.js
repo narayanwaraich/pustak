@@ -1,6 +1,11 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 // import { sign } from 'jsonwebtoken';
-import express from 'express';
-const router = express.Router();
+const express_1 = __importDefault(require("express"));
+const router = express_1.default.Router();
 // import { SECRET } from '../util/config';
 // import { findOne } from '../models/user';
 /*
@@ -39,4 +44,4 @@ router.post('/', async (request, response) => {
 
 });
 */
-export default router;
+exports.default = router;
