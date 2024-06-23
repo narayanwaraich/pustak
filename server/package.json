@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon build/index.js",
-    "dev": "ts-node-dev src/index.ts",
+    "dev": "ts-node-dev --files src/index.ts",
     "lint": "eslint .",
     "tsc": "tsc",
     "migration:down": "node src/util/rollback.js"

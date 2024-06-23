@@ -1,7 +1,12 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../util/db';
 
-class Folder extends Model {}
+class Folder extends Model {
+  declare id: number;
+  declare addDate:  string;
+  declare lastModified: string;
+  declare title: string;
+}
 
 Folder.init({
   id: {
@@ -20,10 +25,6 @@ Folder.init({
     type: DataTypes.TEXT,
     allowNull: false,
   },
-	// parent_id: {
-	// 	type: DataTypes.INTEGER,
-	// 	allowNull: true,
- 	// },
 }, {
   sequelize,
   underscored: true,
