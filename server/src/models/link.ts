@@ -1,7 +1,12 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../util/db';
 
-class Link extends Model {}
+class Link extends Model {
+  declare id: number;
+  declare addDate:  string;
+  declare title: string;
+  declare url: string;
+}
 
 Link.init({
   id: {

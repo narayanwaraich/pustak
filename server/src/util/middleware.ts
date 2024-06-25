@@ -22,15 +22,13 @@ export const errorHandler:ErrorRequestHandler = (
   ) => {
 
   const message = (error instanceof Error) ? error.message : "Unknown Error";
-  console.error(message);
+  console.error(error);
 
   switch (error.name) {
-    case 'CastError':
-      return response.status(400).send({ error: 'malformatted id' });
-    case 'ValidationError':
+    case 'SequelizeValidationError':
       return response.status(400).json({ error: message });
-    case 'MongoServerError':
-      return response.status(400).json({ error: 'expected `username` to be unique' });
+    // case 'ValidationError':
+    //   return response.status(400).json({ error: 'ValidationError' });
     case 'JsonWebTokenError':
       return response.status(401).json({ error: 'token invalid' });
     case 'TokenExpiredError':
