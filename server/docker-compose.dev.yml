@@ -1,5 +1,5 @@
 services:
-  db:
+  db_dev:
     image: postgres
     restart: always
     shm_size: 128mb
@@ -12,6 +12,16 @@ services:
       - ./data:/var/lib/postgresql/data
     ports:
       - 5432:5432
+  db_test:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: tester
+      POSTGRES_PASSWORD: hciaraw
+      # POSTGRES_DB: postgres
+      # PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - 5434:5432
   adminer:
     image: adminer
     restart: always

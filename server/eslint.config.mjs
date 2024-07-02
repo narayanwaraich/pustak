@@ -58,6 +58,7 @@ export default [
           "checksVoidReturn": false
         },
       ],
+      "@typescript-eslint/no-floating-promises": "off",
     },
   },
 ];

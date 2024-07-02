@@ -13,8 +13,7 @@ exports.rollbackMigration = exports.connectToDatabase = exports.sequelize = void
 const sequelize_1 = require("sequelize");
 const config_1 = require("./config");
 const umzug_1 = require("umzug");
-// require('ts-node/register');
-exports.sequelize = new sequelize_1.Sequelize(String(config_1.DATABASE_URL));
+exports.sequelize = new sequelize_1.Sequelize(String(config_1.DATABASE_URL), { logging: false });
 const connectToDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield exports.sequelize.authenticate();
@@ -41,10 +40,11 @@ const runMigrations = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // const pendingMigrations = await migrator.pending();
         // console.log('pendingMigrations :', pendingMigrations);
-        const migrations = yield migrator.up();
+        yield migrator.up();
+        /*     const migrations = await migrator.up();
         console.log('Migrations up to date', {
-            files: migrations.map((mig) => mig.name),
-        });
+          files: migrations.map((mig) => mig.name),
+        }); */
     }
     catch (err) {
         if (err instanceof umzug_1.MigrationError) {

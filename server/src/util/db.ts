@@ -1,11 +1,10 @@
 import {Sequelize} from 'sequelize';
 import { DATABASE_URL } from './config';
 import { Umzug, SequelizeStorage, MigrationError } from 'umzug';
-// require('ts-node/register');
 
 export const sequelize = new Sequelize(
   String(DATABASE_URL),
-  // {logging:false} 
+  {logging:false} 
 ); 
 
 export const connectToDatabase = async () => {
@@ -36,10 +35,11 @@ const runMigrations = async () => {
   try {
     // const pendingMigrations = await migrator.pending();
     // console.log('pendingMigrations :', pendingMigrations);
-    const migrations = await migrator.up();
+    await migrator.up();
+    /*     const migrations = await migrator.up();
     console.log('Migrations up to date', {
       files: migrations.map((mig) => mig.name),
-    });
+    }); */
   } catch (err) {
     if (err instanceof MigrationError) {
       console.error(err.cause);

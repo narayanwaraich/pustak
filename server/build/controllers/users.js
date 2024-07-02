@@ -1,23 +1,11 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-// import {Request, Response, NextFunction} from 'express';
-// import { tokenExtractor } from '../util/middleware';
-const models_1 = require("../models");
-const router = express_1.default.Router();
-/*
+/* import express from 'express';
+import {Request, Response, NextFunction} from 'express';
+import { tokenExtractor } from '../util/middleware';
+import {Note, Team, User} from '../models';
+const router = express.Router();
+
+
 const isAdmin = async (request: Request, response: Response, next: NextFunction) => {
   const user = await User.findByPk(request.decodedToken.id);
   if (!user.admin) {
@@ -25,26 +13,28 @@ const isAdmin = async (request: Request, response: Response, next: NextFunction)
   }
   next();
 };
-*/
-router.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield models_1.User.findAll({
-        include: [
-            {
-                model: models_1.Note,
-                attributes: { exclude: ['userId'] }
-            },
-            {
-                model: models_1.Team,
-                attributes: ['name', 'id'],
-                through: {
-                    attributes: []
-                }
-            }
-        ]
-    });
-    res.json(users);
-}));
-/*
+
+
+router.get('/', async (_req, res) => {
+  const users = await User.findAll({
+    include: [
+      {
+        model: Note,
+        attributes: { exclude: ['userId'] }
+      },
+      {
+        model: Team,
+        attributes: ['name', 'id'],
+        through: {
+          attributes: []
+        }
+      }
+    ]
+  });
+  res.json(users);
+});
+
+
 router.post('/', async (req, res) => {
   try {
     const user = await User.create(req.body);
@@ -53,17 +43,18 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error });
   }
 });
-*/
-router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield models_1.User.findByPk(req.params.id);
-    if (user) {
-        res.json(user);
-    }
-    else {
-        res.status(404).end();
-    }
-}));
-/*
+
+
+router.get('/:id', async (req, res) => {
+  const user = await User.findByPk(req.params.id);
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404).end();
+  }
+});
+
+
 router.put('/:username', tokenExtractor, isAdmin, async (req, res) => {
   const user = await User.findOne({
     where: {
@@ -79,5 +70,6 @@ router.put('/:username', tokenExtractor, isAdmin, async (req, res) => {
     res.status(404).end();
   }
 });
-*/
-exports.default = router;
+
+
+export default router; */ 

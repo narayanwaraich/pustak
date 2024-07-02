@@ -1,4 +1,4 @@
-export interface FolderPostRequest {
+export interface FolderParams {
 	title: string,
 	addDate?: string,
 	lastModified?: string,

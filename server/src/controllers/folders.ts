@@ -1,6 +1,6 @@
 import express, {RequestHandler, Request} from "express";
 import { Folder } from "../models";
-import {FolderPostRequest} from '../typings/router';
+import {FolderParams} from '../typings/router';
 const router = express.Router();
 
 const folderLookup:RequestHandler = async(req: Request, _res, next) => {
@@ -33,7 +33,7 @@ router.get('/:id', folderLookup, (req,res) => {
 	else res.status(404).end();
 });
 
-router.post('/', async (req: Request<object, object, FolderPostRequest>,res) => {
+router.post('/', async (req: Request<object, object, FolderParams>,res) => {
 
 	const payload = req.body;
 	

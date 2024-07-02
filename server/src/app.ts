@@ -2,13 +2,8 @@ import express from 'express';
 require('express-async-errors');
 import cors from 'cors';
 import logger from 'morgan';
-import { errorHandler, requestLogger } from './util/middleware';
-
-import notesRouter from './controllers/notes';
-import usersRouter from './controllers/users';
-import loginRouter from './controllers/login';
-import folderRouter from './controllers/folders';
-import { unknownEndpoint } from './util/middleware';
+import { errorHandler, unknownEndpoint } from './util/middleware';
+import { folders, links } from './controllers';
 
 const app = express();
 
@@ -17,12 +12,10 @@ app.use(logger('dev'));
 app.use(cors());
 app.use(express.static('dist'));
 app.use(express.json());
-app.use(requestLogger);
+// app.use(requestLogger);
 
-app.use('/api/notes', notesRouter);
-app.use('/api/users', usersRouter);
-app.use('/api/login', loginRouter);
-app.use('/api/folders', folderRouter);
+app.use('/api/folders', folders);
+app.use('/api/links', links);
 
 // if (process.env.NODE_ENV === 'test') {
 //   const testingRouter = require('./controllers/testing')
