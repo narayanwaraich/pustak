@@ -4,8 +4,14 @@ import {FolderParams} from '../typings/router';
 const router = express.Router();
 
 const folderLookup:RequestHandler = async(req: Request, _res, next) => {
-	req.folder = await Folder.findByPk(req.params.id);
-	next();
+
+	try {
+		req.folder = await Folder.findByPk(req.params.id);
+		next();
+	} catch (error) {
+		next(error);
+	}
+	
 };
 
 router.get('/', async (_req, res) => {
@@ -36,14 +42,18 @@ router.get('/:id', folderLookup, (req,res) => {
 router.post('/', async (req: Request<object, object, FolderParams>,res) => {
 
 	const payload = req.body;
+	const date = new Date().toISOString();
+
+	if(typeof payload.title !== 'string') {
+		return res.status(400).json({ error: { message: 'Incorrect data' } });
+	};
 	
-	if(typeof payload.title !== 'string') throw new Error('Incorrect data');
-	payload.addDate ??= new Date().toISOString();
-	payload.lastModified ??= new Date().toISOString();
+	payload.addDate ??= date;
+	payload.lastModified ??= date;
 	payload.parentId ??= null;
 
 	const folder = await Folder.create({ ...payload });
-	res.json(folder);
+	res.status(201).json(folder);			
 
 });
 

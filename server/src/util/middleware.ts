@@ -1,6 +1,7 @@
 // import jwt from 'jsonwebtoken';
 import { RequestHandler, ErrorRequestHandler } from 'express';
 // import { SECRET } from './config';
+import { CustomError } from '../typings/util';
 
 export const requestLogger:RequestHandler = (request, _response, next) => {
   console.log('Method:', request.method);
@@ -14,43 +15,45 @@ export const unknownEndpoint:RequestHandler = (_request, response) => {
   response.status(404).send({ error: 'unknown endpoint' });
 };
 
+export const errorLogger:ErrorRequestHandler = (
+  err, 
+  _request, 
+  _response, 
+  next
+) => {
+  // console.error(err);
+  // console.log(err.name);
+  // console.log(err.message);
+  // console.log(err.status);
+  next(err);
+};
+
 export const errorHandler:ErrorRequestHandler = (
-    error, 
-    _request, 
-    response, 
+    err: CustomError, 
+    _req, 
+    res, 
     next
   ) => {
 
-  const message = (error instanceof Error) ? error.message : "Unknown Error";
-  console.error(error);
+    const statusCode = err.status ?? 500;
+    const message = err.message || "Something went wrong.";
 
-  switch (error.name) {
-    case 'SequelizeValidationError':
-      return response.status(400).json({ error: message });
-    // case 'ValidationError':
-    //   return response.status(400).json({ error: 'ValidationError' });
-    case 'JsonWebTokenError':
-      return response.status(401).json({ error: 'token invalid' });
-    case 'TokenExpiredError':
-      return response.status(401).json({error: 'token expired'});
-    default:
-      return response.status(400).json({ error: message });
-      break;
-  }
-/*
-  if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'malformatted id' });
-  } else if (error.name === 'ValidationError') {
-    return response.status(400).json({ error: error.message });
-  } else if (error.name === 'MongoServerError' && error.message.includes('E11000 duplicate key error')) {
-    return response.status(400).json({ error: 'expected `username` to be unique' });
-  } else if (error.name ===  'JsonWebTokenError') {
-    return response.status(401).json({ error: 'token invalid' });
-  }  else if (error.name === 'TokenExpiredError') {
-    return response.status(401).json({error: 'token expired'});
-  }
-*/
-  next(error);
+    switch (err.name) {
+      case 'SequelizeValidationError':
+        return res.status(statusCode).json({ error: { message, statusCode } });
+      case 'SequelizeDatabaseError':
+        return res.status(400).json({ error: { message } });
+      case 'ValidationError':
+        return res.status(statusCode).json({ error: { message, statusCode } });
+      case 'JsonWebTokenError':
+        return res.status(statusCode).json({ error: 'token invalid' });
+      case 'TokenExpiredError':
+        return res.status(statusCode).json({error: 'token expired'});
+      default:
+        return res.status(statusCode).json({ error: { message, statusCode } });
+        break;
+    }
+    next(err);
 };
 
 /*

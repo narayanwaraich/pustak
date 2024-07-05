@@ -2,7 +2,7 @@ import express from 'express';
 require('express-async-errors');
 import cors from 'cors';
 import logger from 'morgan';
-import { errorHandler, unknownEndpoint } from './util/middleware';
+import { errorHandler, errorLogger, unknownEndpoint } from './util/middleware';
 import { folders, links } from './controllers';
 
 const app = express();
@@ -23,6 +23,7 @@ app.use('/api/links', links);
 // }
 
 app.use(unknownEndpoint);
+app.use(errorLogger);
 app.use(errorHandler);
 
 export default app;

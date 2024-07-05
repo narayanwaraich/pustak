@@ -1,40 +1,40 @@
 import {Sequelize} from 'sequelize';
-import { DATABASE_URL } from '../util/config';
-import { Folder,Link } from '../models';
+import { DATABASE_URL } from '../../util/config';
+import { Folder,Link } from '../../models';
 
 export const sequelize = new Sequelize(String(DATABASE_URL));
 
 export const folders = [
 	{
-		"id": 1,
+		// "id": 1,
 		"addDate": "2020-10-09T01:19:58.000Z",
 		"lastModified": "2024-04-17T06:52:08.000Z",
 		"title": "BCIT",
 		"parentId": null,
 	},
 	{
-		"id": 2,
+		// "id": 2,
 		"addDate": "2020-10-09T01:22:40.000Z",
 		"lastModified": "2020-10-09T01:23:26.000Z",
 		"title": "React",
 		"parentId": 1,
 	},
 	{
-		"id": 3,
+		// "id": 3,
 		"addDate": "2021-04-05T22:41:45.000Z",
 		"lastModified": "2021-04-05T22:41:45.000Z",
 		"title": "Agile - COMP 2833",
 		"parentId": 1,
 	},
 	{
-		"id": 5,
+		// "id": 5,
 		"addDate": "2020-09-25T19:46:07.000Z",
 		"lastModified": "2024-05-26T01:12:17.000Z",
 		"title": "js",
 		"parentId": 2,
 	},
 	{
-		"id": 6,
+		// "id": 6,
 		"addDate": "2024-06-25T01:01:23.089Z",
 		"lastModified": "2024-06-25T01:01:23.090Z",
 		"title": "Freelance",
@@ -79,6 +79,26 @@ export const links = [
 			"folderId": 2
 	}
 ];
+/* 
+export const foldersInDb = async () => {
+  const folders = await Folder.findAll();
+	// return folders;
+  return folders.map(folder => JSON.stringify(folder, null, 4));
+};
+ */
+export const foldersInDb = async () => await Folder.findAll();
+
+export const nonExistingId = async () => {
+
+  const folder = await Folder.create({ 
+		title: 'createdJustForTheId',
+		addDate: new Date().toISOString()
+	});
+  await folder.destroy();
+
+  return folder.id.toString();
+
+};
 
 export const connectToDatabase = async () => {
 	try {
