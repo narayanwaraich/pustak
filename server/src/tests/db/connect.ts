@@ -23,17 +23,3 @@ export const foldersInDb = async () => {
   return folders.map(folder => JSON.stringify(folder, null, 4));
 };
  */
-
-/*
-export const nonExistingId = async () => {
-
-  const folder = await Folder.create({ 
-		title: 'createdJustForTheId',
-		addDate: new Date().toISOString()
-	});
-
-  await folder.destroy();
-  return folder.id.toString();
-
-};
- */

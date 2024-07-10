@@ -8,7 +8,13 @@ export default	defineConfig({
 			enabled: true,
       reporter: ['text', 'json', 'html'],
 			reportsDirectory: './src/tests/coverage',
-			exclude:	['build/**','src/migrations/**','html/**'],
+			exclude:	[
+        'build/**',
+        'src/migrations/**',
+        'html/**',
+        'src/tests/**',
+        'config.ts'
+      ],
     },
   },
 });

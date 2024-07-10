@@ -1,6 +1,6 @@
-import express, {RequestHandler, Request} from "express";
-import { Link } from "../models/associations";
-import {LinkParams} from '../typings/router';
+import express, {	RequestHandler,	Request	} from "express";
+import {	Link	} from "../models";
+import {	LinkParams	} from '../typings/router';
 const router = express.Router();
 
 const linkLookup:RequestHandler = async(req: Request, _res, next) => {

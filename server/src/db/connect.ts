@@ -1,6 +1,5 @@
 import {sequelize} from './setup';
 import {runMigrations} from './migration';
-import '../models/associations';
 
 export const connectToDatabase = async () => {
   try {

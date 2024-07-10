@@ -1,19 +1,12 @@
-import { describe, test, beforeAll, expect } from 'vitest';
+import { describe, test, expect } from 'vitest';
 import supertest from 'supertest';
 import app from '../../app';
-import { nonExistingId } from '../db/connect';
-// import '../helpers'; 
-import { links, linksInDb } from './link_helper';
+import { numberOfLinks, nonExistingId } from './link_helper';
+import { Link } from '../../models';
  
 const api = supertest(app);
 
-beforeAll( async () => {
-
-	// await createLinks();
-
-}); 
-
-describe.concurrent.skip('when there is initially some links saved', () => {
+describe.concurrent('when there is initially some links saved', () => {
 
   test('links are returned as json', async () => {
 
@@ -26,16 +19,16 @@ describe.concurrent.skip('when there is initially some links saved', () => {
 
   test('all links are returned', async () => {
 
-    const dbLinks = await linksInDb();
-
-    expect(dbLinks).toHaveLength(links.length);
+    const numberOfSavedLinks = await Link.count();
+    expect(numberOfSavedLinks).toEqual(numberOfLinks);
 
   });
   
-  test('a specific link is within the returned links', async () => {
+  /* Difficult to test this because we are generating random titles */
+  test.skip('a specific link is within the returned links', async () => {
 
-    const dbLinks = await linksInDb();
-    const titles = dbLinks.map(e => e.title);
+    const savedLinks = await Link.findAll();
+    const titles = savedLinks.map(e => e.title);
 
     expect(titles.includes('ECMAScript 6'));
 
@@ -43,15 +36,14 @@ describe.concurrent.skip('when there is initially some links saved', () => {
 
 });
 
-describe.concurrent.skip('viewing a specific link', () => {
+describe.concurrent('viewing a specific link', () => {
   
   test( 'a specific link can be viewed', async () => {
 
-    const dbLinks = await linksInDb();
-    const linkToView = dbLinks[0];
+    const linkToView = await Link.findOne();
 
     const resultLink = await api
-      .get(`/api/links/${linkToView.id}`)
+      .get(`/api/links/${linkToView?.id}`)
       .expect(200)
       .expect('Content-Type', /application\/json/);
     
@@ -81,7 +73,7 @@ describe.concurrent.skip('viewing a specific link', () => {
 
 });
 
-describe.skip( 'adding a new link' , () => {
+describe( 'adding a new link' , () => {
 
   test('link can be created', async() => {
 
@@ -95,10 +87,10 @@ describe.skip( 'adding a new link' , () => {
       .expect(201)
       .expect('Content-Type', /application\/json/);
 
-    const dbLinks = await linksInDb();
-    expect(dbLinks).toHaveLength(links.length + 1);
+    const savedLinks = await Link.findAll();
+    expect(savedLinks).toHaveLength(numberOfLinks + 1);
 
-    const urls = dbLinks.map(link => link.url);
+    const urls = savedLinks.map(link => link.url);
     expect(urls).toContain( 'https://www.digitalocean.com/community/tutorials?q=%5Btutorial-series%5D' );
 
   });
@@ -114,32 +106,29 @@ describe.skip( 'adding a new link' , () => {
       .send(link)
       .expect(400);
 
-    const dbLinks = await linksInDb();
+    const numberOfSavedLinks = await Link.count();
 
-    expect(dbLinks).toHaveLength(links.length+1);
+    expect(numberOfSavedLinks).toEqual(numberOfLinks+1);
 
   });
 
 });
 
-describe.skip( 'deleting a link' , () => {
+describe( 'deleting a link' , () => {
  
   test ( 'a link can be deleted', async() => {
 
-    const linksBeforeDeletion = await linksInDb();
-    const linkToDelete = linksBeforeDeletion[0];
+    const linkToDelete = await Link.findOne();
 
     await api
-      .delete(`/api/links/${linkToDelete.id}`)
+      .delete(`/api/links/${linkToDelete?.id}`)
       .expect(204);
 
-    const linksAfterDeletion = await linksInDb();
-
-    expect(linksAfterDeletion).toHaveLength( links.length );
+    const linksAfterDeletion = await Link.findAll();
+    expect(linksAfterDeletion).toHaveLength( numberOfLinks );
     
     const titles = linksAfterDeletion.map(link => link.title);
-    
-    expect(titles).not.toContain(linkToDelete.title);
+    expect(titles).not.toContain(linkToDelete?.title);
 
   });
 

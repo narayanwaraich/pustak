@@ -1,18 +1,35 @@
 import {	connectToDatabase	} from './db/connect';
 import {	sequelize	} from './db/setup';
-import Folder from '../models/folder';
-import Link from '../models/link';
-import { tryQuery } from './debug';
+import {  Folder, Link  } from '../models';
+import { createFolders } from './api/folder_helper';
+import { createLinks } from './api/link_helper';
+// import { tryQuery } from './debug';
 
 let teardown = false;
 
-export default async function () {
-	
-	console.log('in setup; pre');
+const startDatabase = async () => {
+
 	await connectToDatabase();
-	await tryQuery();
+	
 	await Folder.sync({ force: true });
 	await Link.sync({ force: true });
+
+	await createFolders();
+	await createLinks();
+
+};
+
+const endDatabase =  async () => {
+
+	await Link.drop();
+	await Folder.drop();
+	await sequelize.close();
+
+};
+
+export default async function () {
+	
+	await startDatabase();
 
 	return async () => {
 
@@ -21,11 +38,7 @@ export default async function () {
     }
 		teardown = true;
 
-		await Folder.drop();
-		await Link.drop();
-		await sequelize.close();
-
-		console.log('post teardown');
+		await endDatabase();
 	};
 
 }

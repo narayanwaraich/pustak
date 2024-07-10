@@ -1,17 +1,10 @@
-import { describe, test, beforeAll, expect } from 'vitest';
+import { describe, test, expect } from 'vitest';
 import supertest from 'supertest';
 import app from '../../app';
-// import { nonExistingId } from '../db/connect';
-// import '../helpers'; 
-import { folders, createFolders, foldersInDb } from './folder_helper';
+import { numberOfFolders, nonExistingId } from './folder_helper';
+import { Folder } from '../../models';
 
 const api = supertest(app); 
-
-beforeAll( async () => {
-
-	await createFolders();
-
-});
 
 describe.concurrent('when there is initially some folders saved', () => {
 
@@ -26,16 +19,16 @@ describe.concurrent('when there is initially some folders saved', () => {
 
   test('all folders are returned', async () => {
 
-    const dbFolders = await foldersInDb();
-
-    expect(dbFolders).toHaveLength(folders.length);
-
+    const numberOfSavedFolders = await Folder.count();
+    expect(numberOfSavedFolders).toEqual(numberOfFolders);
+    
   });
   
-  test('a specific folder is within the returned folders', async () => {
+  /* Difficult to test this because we are generating random titles */
+  test.skip('a specific folder is within the returned folders', async () => {
 
-    const dbFolders = await foldersInDb();
-    const titles = dbFolders.map(e => e.title);
+    const savedFolders = await Folder.findAll();
+    const titles = savedFolders.map(e => e.title);
 
     expect(titles.includes('BCIT'));
 
@@ -47,11 +40,10 @@ describe.concurrent('viewing a specific folder', () => {
   
   test( 'a specific folder can be viewed', async () => {
 
-    const dbFolders = await foldersInDb();
-    const folderToView = dbFolders[0];
+    const folderToView = await Folder.findOne();
 
     const resultFolder = await api
-      .get(`/api/folders/${folderToView.id}`)
+      .get(`/api/folders/${folderToView?.id}`)
       .expect(200)
       .expect('Content-Type', /application\/json/);
     
@@ -86,7 +78,7 @@ describe( 'adding a new folder' , () => {
   test('folder can be created', async() => {
 
     const folder = 	{ 
-      "title": "new folder" 
+      "title": "new test folder" 
     };
 
     await api
@@ -95,11 +87,11 @@ describe( 'adding a new folder' , () => {
       .expect(201)
       .expect('Content-Type', /application\/json/);
 
-    const dbFolders = await foldersInDb();
-    expect(dbFolders).toHaveLength(folders.length + 1);
+    const savedFolders = await Folder.findAll();
+    expect(savedFolders).toHaveLength(numberOfFolders + 1);
 
-    const titles = dbFolders.map(e => e.title);
-    expect(titles).toContain( 'new folder' );
+    const titles = savedFolders.map(e => e.title);
+    expect(titles).toContain( 'new test folder' );
 
   });
 
@@ -114,9 +106,9 @@ describe( 'adding a new folder' , () => {
       .send(folder)
       .expect(400);
 
-    const dbFolders = await foldersInDb();
+    const numberOfSavedFolders = await Folder.count();
 
-    expect(dbFolders).toHaveLength(folders.length+1);
+    expect(numberOfSavedFolders).toEqual(numberOfFolders+1);
 
   });
 
@@ -126,20 +118,17 @@ describe( 'deleting a folder' , () => {
  
   test ( 'a folder can be deleted', async() => {
 
-    const foldersBeforeDeletion = await foldersInDb();
-    const folderToDelete = foldersBeforeDeletion[0];
+    const folderToDelete = await Folder.findOne();
 
     await api
-      .delete(`/api/folders/${folderToDelete.id}`)
+      .delete(`/api/folders/${folderToDelete?.id}`)
       .expect(204);
 
-    const foldersAfterDeletion = await foldersInDb();
-
-    expect(foldersAfterDeletion).toHaveLength( folders.length );
+    const foldersAfterDeletion = await Folder.findAll();
+    expect(foldersAfterDeletion).toHaveLength( numberOfFolders );
     
     const titles = foldersAfterDeletion.map(folder => folder.title);
-    
-    expect(titles).not.toContain(folderToDelete.title);
+    expect(titles).not.toContain(folderToDelete?.title);
 
   });
 

@@ -1,5 +1,5 @@
-import { DataTypes } from '@sequelize/core';
-import type { Migration } from '../db/connect';
+import { DataTypes } from 'sequelize';
+import type { Migration } from '../db/migration';
 
 export const up: Migration = async({ context: queryInterface }) => {
   await queryInterface.createTable('folders', {
@@ -41,11 +41,11 @@ export const up: Migration = async({ context: queryInterface }) => {
   await queryInterface.addColumn('links', 'folder_id', {
     type: DataTypes.INTEGER,
     allowNull: false,
-    references: { tableName: 'folders', key: 'id' },
+    references: { model: 'folders', key: 'id' },
   });
   await queryInterface.addColumn('folders', 'parent_id', {
 	type: DataTypes.INTEGER,
-	references: { tableName: 'folders', key: 'id' },
+	references: { model: 'folders', key: 'id' },
    });
  };
 

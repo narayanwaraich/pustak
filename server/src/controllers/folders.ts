@@ -1,6 +1,6 @@
-import express, {RequestHandler, Request} from "express";
-import { Folder } from "../models/associations";
-import {FolderParams} from '../typings/router';
+import express, {	RequestHandler,	Request	} from "express";
+import {	Folder	} from "../models";
+import {	FolderParams	} from '../typings/router';
 const router = express.Router();
 
 const folderLookup:RequestHandler = async(req: Request, _res, next) => {
@@ -66,6 +66,7 @@ router.put('/:id', folderLookup, async(req,res) => {
 	} else {
 		res.status(404).end();
 	}
+	
 });
 
 router.delete('/:id', folderLookup, async(req, res) => {
