@@ -1,4 +1,4 @@
-import { Folder, Link } from "../models";
+import { Folder, Link } from "../models/associations";
 
 declare global {
 	namespace Express {

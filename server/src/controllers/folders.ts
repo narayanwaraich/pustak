@@ -1,5 +1,5 @@
 import express, {RequestHandler, Request} from "express";
-import { Folder } from "../models";
+import { Folder } from "../models/associations";
 import {FolderParams} from '../typings/router';
 const router = express.Router();
 
@@ -45,7 +45,7 @@ router.post('/', async (req: Request<object, object, FolderParams>,res) => {
 	const date = new Date().toISOString();
 
 	if(typeof payload.title !== 'string') {
-		return res.status(400).json({ error: { message: 'Incorrect data' } });
+		return res.status(400).json({ error: { message: 'Incorrect Data: Folder\'s title is missing!' } });
 	};
 	
 	payload.addDate ??= date;

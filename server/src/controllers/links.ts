@@ -1,11 +1,17 @@
 import express, {RequestHandler, Request} from "express";
-import { Link } from "../models";
-// import {FolderRequest} from '../typings/router';
+import { Link } from "../models/associations";
+import {LinkParams} from '../typings/router';
 const router = express.Router();
 
 const linkLookup:RequestHandler = async(req: Request, _res, next) => {
-	req.link = await Link.findByPk(req.params.id);
-	next();
+
+	try {
+		req.link = await Link.findByPk(req.params.id);
+		next();
+		} catch (error) {
+		next(error);
+	}
+
 };
 
 router.get('/', async (_req, res) => {
@@ -16,6 +22,23 @@ router.get('/', async (_req, res) => {
 router.get('/:id', linkLookup, (req,res) => {
 	if(req.link) res.json(req.link);
 	else res.status(404).end();
+});
+
+router.post('/', async (req: Request<object, object, LinkParams>,res) => {
+
+	const payload = req.body;
+	const date = new Date().toISOString();
+
+	if(typeof payload.url !== 'string') {
+		return res.status(400).json({ error: { message: 'Incorrect Data: Link url is missing!' } });
+	};
+	
+	payload.addDate ??= date;
+	payload.parentId ??= null;
+
+	const link = await Link.create({ ...payload });
+	res.status(201).json(link);			
+
 });
 
 router.put('/:id', linkLookup, async(req,res) => {

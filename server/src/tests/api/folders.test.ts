@@ -1,17 +1,11 @@
-import { describe, test, beforeAll, afterAll, expect } from 'vitest';
+import { describe, test, beforeAll, expect } from 'vitest';
 import supertest from 'supertest';
-import app from '../app';
-import { connectToDatabase, createFolders, dropTables, folders, foldersInDb, nonExistingId } from './db/setup';
+import app from '../../app';
+// import { nonExistingId } from '../db/connect';
+// import '../helpers'; 
+import { folders, createFolders, foldersInDb } from './folder_helper';
 
-const start = async () => {
-
-  await connectToDatabase();
-
-};
-
-start();
-
-const api = supertest(app);
+const api = supertest(app); 
 
 beforeAll( async () => {
 
@@ -19,7 +13,7 @@ beforeAll( async () => {
 
 });
 
-describe('when there is initially some folders saved', () => {
+describe.concurrent('when there is initially some folders saved', () => {
 
   test('folders are returned as json', async () => {
 
@@ -49,7 +43,7 @@ describe('when there is initially some folders saved', () => {
 
 });
 
-describe('viewing a specific folder', () => {
+describe.concurrent('viewing a specific folder', () => {
   
   test( 'a specific folder can be viewed', async () => {
 
@@ -148,11 +142,5 @@ describe( 'deleting a folder' , () => {
     expect(titles).not.toContain(folderToDelete.title);
 
   });
-
-});
-
-afterAll(async () => {
-
-  await dropTables();
 
 });

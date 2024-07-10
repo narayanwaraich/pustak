@@ -4,3 +4,10 @@ export interface FolderParams {
 	lastModified?: string,
 	parentId?: number | null
 }
+
+export interface LinkParams {
+	title?: string,
+	addDate?: string,
+	url: string,
+	parentId?: number | null
+}

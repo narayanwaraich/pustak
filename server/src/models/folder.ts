@@ -1,35 +1,49 @@
-import { Model, DataTypes } from 'sequelize';
-import { sequelize } from '../util/db';
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import {
+  DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+  NonAttribute,
+} from '@sequelize/core';
+import { 
+  Attribute, 
+  PrimaryKey, 
+  AutoIncrement, 
+  NotNull, 
+  Default,
+  HasMany,
+  Table,
+  // BelongsTo,
+} from '@sequelize/core/decorators-legacy';
+import Link from './link';
 
-class Folder extends Model {
-  declare id: number;
-  declare addDate:  string;
-  declare lastModified: string;
+@Table({ schema: 'narayan' })
+export default class Folder extends Model<InferAttributes<Folder>, InferCreationAttributes<Folder>> {
+  
+  @Attribute(DataTypes.INTEGER)
+  @PrimaryKey
+  @AutoIncrement
+  declare id: CreationOptional<number>;
+
+  @Attribute(DataTypes.DATE)
+  @NotNull
+  @Default(new Date().toISOString())
+  declare addDate: CreationOptional<string>;
+
+  @Attribute(DataTypes.DATE)
+  @Default(new Date().toISOString())
+  declare lastModified: CreationOptional<string>;
+
+  @Attribute(DataTypes.STRING)
+  @NotNull
   declare title: string;
+
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
+  
+  @HasMany(() => Link, 'folderId')
+  declare links?: NonAttribute<Link[]>;
+
 }
-
-Folder.init({
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  addDate: {
-    type: DataTypes.DATE,
-    allowNull: false
-  },
-  lastModified: {
-	  type: DataTypes.DATE,
-  },
-	title: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-}, {
-  sequelize,
-  underscored: true,
-  timestamps: false,
-  modelName: 'folder'
-});
-
-export default Folder;
