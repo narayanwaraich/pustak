@@ -1,35 +1,35 @@
 services:
 
-  # db_dev:
-  #   image: postgres
-  #   restart: always
-  #   shm_size: 128mb
-  #   environment:
-  #     POSTGRES_USER: pustak
-  #     POSTGRES_PASSWORD: hciaraw
-  #     # POSTGRES_DB: postgres
-  #     # PGDATA: /var/lib/postgresql/data/pgdata
-  #   volumes:
-  #     - ./data:/var/lib/postgresql/data
-  #   ports:
-  #     - 5432:5432
-
-  db_test:
+  db_dev:
     image: postgres
     restart: always
+    shm_size: 128mb
     environment:
-      POSTGRES_USER: tester
+      POSTGRES_USER: pustak
       POSTGRES_PASSWORD: hciaraw
       # POSTGRES_DB: postgres
       # PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./data:/var/lib/postgresql/data
     ports:
-      - 5434:5432
+      - 5432:5432
 
-  # adminer:
-  #   image: adminer
+  # db_test:
+  #   image: postgres
   #   restart: always
+  #   environment:
+  #     POSTGRES_USER: tester
+  #     POSTGRES_PASSWORD: hciaraw
+  #     # POSTGRES_DB: postgres
+  #     # PGDATA: /var/lib/postgresql/data/pgdata
   #   ports:
-  #     - 8080:8080
+  #     - 5434:5432
 
-# volumes:
-#   data:
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  data:

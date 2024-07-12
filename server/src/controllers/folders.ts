@@ -1,6 +1,7 @@
 import express, {	RequestHandler,	Request	} from "express";
 import {	Folder	} from "../models";
 import {	FolderParams	} from '../typings/router';
+import { validateFolderInput } from "../util/validator";
 const router = express.Router();
 
 const folderLookup:RequestHandler = async(req: Request, _res, next) => {
@@ -41,16 +42,7 @@ router.get('/:id', folderLookup, (req,res) => {
 
 router.post('/', async (req: Request<object, object, FolderParams>,res) => {
 
-	const payload = req.body;
-	const date = new Date().toISOString();
-
-	if(typeof payload.title !== 'string') {
-		return res.status(400).json({ error: { message: 'Incorrect Data: Folder\'s title is missing!' } });
-	};
-	
-	payload.addDate ??= date;
-	payload.lastModified ??= date;
-	payload.parentId ??= null;
+	const payload = validateFolderInput(req.body);
 
 	const folder = await Folder.create({ ...payload });
 	res.status(201).json(folder);			

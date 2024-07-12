@@ -1,6 +1,7 @@
 import express, {	RequestHandler,	Request	} from "express";
 import {	Link	} from "../models";
 import {	LinkParams	} from '../typings/router';
+import { validateLinkInput } from "../util/validator";
 const router = express.Router();
 
 const linkLookup:RequestHandler = async(req: Request, _res, next) => {
@@ -26,15 +27,7 @@ router.get('/:id', linkLookup, (req,res) => {
 
 router.post('/', async (req: Request<object, object, LinkParams>,res) => {
 
-	const payload = req.body;
-	const date = new Date().toISOString();
-
-	if(typeof payload.url !== 'string') {
-		return res.status(400).json({ error: { message: 'Incorrect Data: Link url is missing!' } });
-	};
-	
-	payload.addDate ??= date;
-	payload.parentId ??= null;
+	const payload = validateLinkInput(req.body);
 
 	const link = await Link.create({ ...payload });
 	res.status(201).json(link);			

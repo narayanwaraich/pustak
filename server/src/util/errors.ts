@@ -1,12 +1,20 @@
-import { CustomError } from "../typings/util";
 
-class RequiredInputError extends Error implements CustomError {
+class IncorrectDataError extends Error {
 	status: number;
   constructor(message:string) {
     super(message);
-    this.name = 'RequiredInputError';
-		this.status = 400;
+    this.name = 'IncorrectDataError';
+		this.status = 418;
   }
 }
 
-export default RequiredInputError;
+class MissingDataError extends Error {
+	status: number;
+  constructor(message:string) {
+    super(message);
+    this.name = 'MissingDataError';
+		this.status = 419;
+  }
+}
+
+export {IncorrectDataError, MissingDataError};
