@@ -1,8 +1,17 @@
 import Folder from "./folder";
 import Link from "./link";
 
-Folder.hasMany(Link);
-Link.belongsTo(Folder);
+Folder.hasMany(Link, {
+  foreignKey: {
+		name: 'parentId',
+    allowNull: true,
+  },
+});
+Link.belongsTo(Folder, {
+  foreignKey: {
+		name: 'parentId',
+  },
+});
 
 Folder.hasMany(Folder, {
 	as: 'Children', 

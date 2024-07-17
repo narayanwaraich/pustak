@@ -9,5 +9,5 @@ export interface LinkParams {
 	title?: string,
 	addDate?: string,
 	url: string,
-	folderId?: number | null
+	parentId?: number | null
 }

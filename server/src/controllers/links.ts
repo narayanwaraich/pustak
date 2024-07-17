@@ -28,7 +28,6 @@ router.get('/:id', linkLookup, (req,res) => {
 router.post('/', async (req: Request<object, object, LinkParams>,res) => {
 
 	const payload = validateLinkInput(req.body);
-
 	const link = await Link.create({ ...payload });
 	res.status(201).json(link);			
 

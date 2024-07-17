@@ -16,7 +16,7 @@ export const up: Migration = async({ context: queryInterface }) => {
 		type: DataTypes.DATE,
 	},
 	title: {
-		type: DataTypes.TEXT,
+		type: DataTypes.STRING,
 		allowNull: false,
 	},
 });
@@ -31,16 +31,16 @@ export const up: Migration = async({ context: queryInterface }) => {
 		allowNull: false
 	},
 	title: {
-		type: DataTypes.TEXT,
+		type: DataTypes.STRING,
 	},
 	url: {
 		type: DataTypes.TEXT,
 		allowNull: false,
 	},
   });
-  await queryInterface.addColumn('links', 'folder_id', {
+  await queryInterface.addColumn('links', 'parent_id', {
     type: DataTypes.INTEGER,
-    allowNull: false,
+		// allowNull: true,
     references: { model: 'folders', key: 'id' },
   });
   await queryInterface.addColumn('folders', 'parent_id', {

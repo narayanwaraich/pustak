@@ -1,36 +1,71 @@
 import express, {	RequestHandler,	Request	} from "express";
-import {	Folder	} from "../models";
+import {	Folder, Link	} from "../models";
 import {	FolderParams	} from '../typings/router';
 import { validateFolderInput } from "../util/validator";
 const router = express.Router();
 
 const folderLookup:RequestHandler = async(req: Request, _res, next) => {
-
 	try {
 		req.folder = await Folder.findByPk(req.params.id);
 		next();
 	} catch (error) {
 		next(error);
 	}
-	
 };
 
 router.get('/', async (_req, res) => {
 	const folders = await Folder.findAll({
-		// include: { all: true, nested: true }
-		// include: 'Children'
-		include: {
-			model:	Folder,
-			as:		'Children',
-			include: [{
+
+/*
+		include: [
+			{
 				model:	Folder,
 				as:		'Children',
-				// required: true,
-			}]
-				// required: true,
-			// right:	true,
-			// nested: true
-		}
+				nested:	true,
+				include: [
+					{
+						model:	Folder,
+						as:		'Children',
+						nested:	true,
+						include: [
+							{
+								model:	Folder,
+								as:		'Children',
+								nested:	true,
+							},
+							{
+								model:Link
+							},
+						],
+					},
+					{
+						model:Link
+					},
+				],
+			},
+			{
+				model:Link
+			},
+		],
+*/
+
+		include: Link,
+		// include: { all: true, nested: true }
+		// include: 'Children',
+		// include: {
+		// 	model:	Folder,
+		// 	as:		'Children',
+		// 	right:	true,
+		// 	include: [{
+		// 		model:	Folder,
+		// 		as:		'Children',
+		// 		// required: true,
+		// 		include: [{model:Link}],
+		// 	}],
+		// 	// required: true,	/* only records which have an associated model */
+		// 	// nested: true
+		// }
+
 	});
 	res.json(folders);
 });

@@ -56,7 +56,7 @@ export const validateFolderInput = (input: unknown): FolderParams => {
 			title: parseTitle(input.title),
 			addDate: ('addDate' in input) ? parseDate(input.addDate) : dateNow ,
 			lastModified: ('lastModified' in input) ? parseDate(input.lastModified) : dateNow ,
-			parentId: ('parentId' in input) ? parseId(input.parentId) : null ,
+			parentId: ('parentId' in input && input.parentId !== null) ? parseId(input.parentId) : null ,
 		};
 		return output;
 	}
@@ -72,11 +72,12 @@ export const validateLinkInput = (input: unknown): LinkParams => {
 	if ('url' in  input) {
 		const output = {
 			url: parseURL(input.url),
+			title: ('title' in input && isString(input.title)) ? input.title : '',
 			addDate: ('addDate' in input) ? parseDate(input.addDate) : new Date().toISOString() ,
-			folderId: ('parentId' in input) ? parseId(input.parentId) : null ,
+			parentId: ('parentId' in input && input.parentId !== null) ? parseId(input.parentId) : null ,
 		};
 		return output;
 	}
 
-	throw new MissingDataError('Missing title');
+	throw new MissingDataError('Missing url');
 };

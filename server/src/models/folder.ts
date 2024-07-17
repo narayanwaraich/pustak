@@ -8,8 +8,8 @@ class Folder extends Model {
   declare lastModified: string;
   declare title: string;
   declare parentId: number;
-  declare createdAt: Date;
-  declare updatedAt: Date;
+  // declare createdAt: Date;
+  // declare updatedAt: Date;
 }
 
 Folder.init({
@@ -32,12 +32,13 @@ Folder.init({
   parentId: {
     type: DataTypes.INTEGER,
   },
-  createdAt: DataTypes.DATE,
-  updatedAt: DataTypes.DATE,
+  // createdAt: DataTypes.DATE,
+  // updatedAt: DataTypes.DATE,
 }, {
   sequelize,
   underscored: true,
-  modelName: 'folder'
+  modelName: 'folder',
+  timestamps: false,
 });
 
 export default Folder;

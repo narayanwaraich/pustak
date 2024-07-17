@@ -7,8 +7,8 @@ class Link extends Model {
   declare addDate:  string;
   declare title: string;
   declare url: string;
-  declare createdAt: Date;
-  declare updatedAt: Date;
+  // declare createdAt: Date;
+  // declare updatedAt: Date;
 }
 
 Link.init({
@@ -28,12 +28,13 @@ Link.init({
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  createdAt: DataTypes.DATE,
-  updatedAt: DataTypes.DATE,
+  // createdAt: DataTypes.DATE,
+  // updatedAt: DataTypes.DATE,
 }, {
   sequelize,
   underscored: true,
-  modelName: 'link'
+  modelName: 'link',
+  timestamps: false,
 });
 
 export default Link;
