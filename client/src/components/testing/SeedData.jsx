@@ -56,7 +56,6 @@ const SeedData = () => {
  */
 
 	const editObjForDb = obj => {
-		delete obj.type;	//	work on adding this to the db
 		if(Object.hasOwn(obj, 'children')) delete obj.children
 		if(Object.hasOwn(obj, 'addDate')) obj.addDate = new Date(obj.addDate*1000).toISOString()
 		if(Object.hasOwn(obj, 'lastModified')) obj.lastModified = new Date(obj.lastModified*1000).toISOString()
@@ -79,7 +78,7 @@ const SeedData = () => {
 	let parentIdAtDepth = new Map()
 	parentIdAtDepth.set(0, null)
 
-	const addData = (arr, depth) => {
+	const addData = (arr, depth = 0) => {
 		arr.forEach(async element => {
 			if(element.type === 'link') await addLink(element, parentIdAtDepth.get(depth));
 			if(element.type === 'folder') {
@@ -91,7 +90,7 @@ const SeedData = () => {
 		});
 	}
 
-	addData(	bmarks,	0	)
+	addData(	bmarks	)
 
 	return (
 		<>

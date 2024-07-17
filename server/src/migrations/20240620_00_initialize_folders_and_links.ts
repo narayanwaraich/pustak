@@ -19,6 +19,13 @@ export const up: Migration = async({ context: queryInterface }) => {
 		type: DataTypes.STRING,
 		allowNull: false,
 	},
+  type:{
+    type: DataTypes.ENUM,
+    values: ['folder'],
+    allowNull: false,
+  },
+  created_at: DataTypes.DATE,
+  updated_at: DataTypes.DATE,
 });
   await queryInterface.createTable('links', {
 	id: {
@@ -37,10 +44,16 @@ export const up: Migration = async({ context: queryInterface }) => {
 		type: DataTypes.TEXT,
 		allowNull: false,
 	},
+  type:{
+    type: DataTypes.ENUM,
+    values: ['link'],
+    allowNull: false,
+  },
+  created_at: DataTypes.DATE,
+  updated_at: DataTypes.DATE,
   });
   await queryInterface.addColumn('links', 'parent_id', {
     type: DataTypes.INTEGER,
-		// allowNull: true,
     references: { model: 'folders', key: 'id' },
   });
   await queryInterface.addColumn('folders', 'parent_id', {

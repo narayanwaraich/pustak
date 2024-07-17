@@ -5,3 +5,5 @@ environment.d.ts
 .env
 data
 build
+# Sentry Config File
+.sentryclirc

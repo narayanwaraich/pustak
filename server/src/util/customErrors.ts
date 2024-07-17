@@ -1,4 +1,3 @@
-
 class IncorrectDataError extends Error {
 	status: number;
   constructor(message:string) {

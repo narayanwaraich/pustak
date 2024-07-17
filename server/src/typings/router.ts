@@ -2,12 +2,14 @@ export interface FolderParams {
 	title: string,
 	addDate?: string,
 	lastModified?: string,
-	parentId?: number | null
+	type: 'folder',
+	parentId: number | null
 }
 
 export interface LinkParams {
-	title?: string,
+	title: string,
 	addDate?: string,
 	url: string,
-	parentId?: number | null
+	type: 'link',
+	parentId: number | null
 }

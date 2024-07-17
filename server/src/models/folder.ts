@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Model, DataTypes } from 'sequelize';
 import {sequelize} from '../db/setup';
 
@@ -7,9 +6,10 @@ class Folder extends Model {
   declare addDate:  string;
   declare lastModified: string;
   declare title: string;
+  declare type: string;
   declare parentId: number;
-  // declare createdAt: Date;
-  // declare updatedAt: Date;
+  declare createdAt: Date;
+  declare updatedAt: Date;
 }
 
 Folder.init({
@@ -29,11 +29,16 @@ Folder.init({
     type: DataTypes.STRING,
     allowNull: false,
   },
+  type:{
+    type: DataTypes.ENUM,
+    values: ['folder'],
+    allowNull: false,
+  },
   parentId: {
     type: DataTypes.INTEGER,
   },
-  // createdAt: DataTypes.DATE,
-  // updatedAt: DataTypes.DATE,
+  createdAt: DataTypes.DATE,
+  updatedAt: DataTypes.DATE,
 }, {
   sequelize,
   underscored: true,

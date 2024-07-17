@@ -1,5 +1,5 @@
 import { FolderParams, LinkParams } from "../typings/router";
-import { IncorrectDataError, MissingDataError } from "./errors";
+import { IncorrectDataError, MissingDataError } from "./customErrors";
 
 const isString = (text: unknown): text is string => {
 	return typeof text === 'string' || text instanceof String;
@@ -20,7 +20,7 @@ const isUrl = (text: unknown): boolean => {
   } catch (_) {
     return false;  
   }
-  return url.protocol === "http:" || url.protocol === "https:";
+  return url.protocol === "http:" || url.protocol === "https:" || url.protocol === "javascript:";
 };
 
 const parseTitle = (title: unknown): string => {
@@ -45,23 +45,42 @@ const parseURL = (url: unknown): string => {
 	return url;
 };
 
+const parseType = (type: unknown): string => {
+	if (!type) throw new MissingDataError('Missing title');
+	if (!isString(type)) throw new IncorrectDataError('Incorrect type: '+(JSON.stringify(type)));
+	return type;
+};
+
+const parseFolder = (type: unknown): 'folder' => {
+	parseType(type);
+	if (type !== 'folder')  throw new IncorrectDataError('Type should be folder. Incorrect type: '+(JSON.stringify(type)));
+	return type;
+};
+
+const parseLink = (type: unknown): 'link' => {
+	parseType(type);
+	if (type !== 'link')  throw new IncorrectDataError('Type should be link. Incorrect type: '+(JSON.stringify(type)));
+	return type;
+};
+
 export const validateFolderInput = (input: unknown): FolderParams => {
 	if ( !input || typeof input !== 'object' ) {
 		throw new IncorrectDataError('Incorrect or missing data');
 	};
 
-	if ('title' in  input) {
+	if ('type' in input) {
 		const dateNow = new Date().toISOString();
 		const output = {
-			title: parseTitle(input.title),
+			title: ('title' in input) ? parseTitle(input.title) : '',
 			addDate: ('addDate' in input) ? parseDate(input.addDate) : dateNow ,
 			lastModified: ('lastModified' in input) ? parseDate(input.lastModified) : dateNow ,
+			type: ('type' in input) ? parseFolder(input.type) : 'folder' ,
 			parentId: ('parentId' in input && input.parentId !== null) ? parseId(input.parentId) : null ,
 		};
 		return output;
 	}
 
-	throw new MissingDataError('Missing title');
+	throw new MissingDataError('This isn\'t a folder or a link!');
 };
 
 export const validateLinkInput = (input: unknown): LinkParams => {
@@ -74,6 +93,7 @@ export const validateLinkInput = (input: unknown): LinkParams => {
 			url: parseURL(input.url),
 			title: ('title' in input && isString(input.title)) ? input.title : '',
 			addDate: ('addDate' in input) ? parseDate(input.addDate) : new Date().toISOString() ,
+			type: ('type' in input) ? parseLink(input.type) : 'link' ,
 			parentId: ('parentId' in input && input.parentId !== null) ? parseId(input.parentId) : null ,
 		};
 		return output;

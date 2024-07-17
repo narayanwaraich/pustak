@@ -1,11 +1,11 @@
-// import SeedData from "./testing/SeedData"
+import SeedData from "./testing/SeedData"
 // import BuildObj from "./testing/BuildObj"
 
 const Dashboard = () => {
 
 	return (
 		<>
-		{/* <SeedData /> */}
+		<SeedData />
 		{/* <BuildObj /> */}
 		</>
 	)

@@ -14,59 +14,7 @@ const folderLookup:RequestHandler = async(req: Request, _res, next) => {
 };
 
 router.get('/', async (_req, res) => {
-	const folders = await Folder.findAll({
-
-/*
-		include: [
-			{
-				model:	Folder,
-				as:		'Children',
-				nested:	true,
-				include: [
-					{
-						model:	Folder,
-						as:		'Children',
-						nested:	true,
-						include: [
-							{
-								model:	Folder,
-								as:		'Children',
-								nested:	true,
-							},
-							{
-								model:Link
-							},
-						],
-					},
-					{
-						model:Link
-					},
-				],
-			},
-			{
-				model:Link
-			},
-		],
-*/
-
-		include: Link,
-		// include: { all: true, nested: true }
-		// include: 'Children',
-		// include: {
-		// 	model:	Folder,
-		// 	as:		'Children',
-		// 	right:	true,
-		// 	include: [{
-		// 		model:	Folder,
-		// 		as:		'Children',
-		// 		// required: true,
-		// 		include: [{model:Link}],
-		// 	}],
-		// 	// required: true,	/* only records which have an associated model */
-		// 	// nested: true
-		// }
-
-	});
+	const folders = await Folder.findAll({include: Link,});
 	res.json(folders);
 });
 

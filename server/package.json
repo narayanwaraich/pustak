@@ -8,10 +8,13 @@
     "test": "cross-env NODE_ENV=test vitest --ui",
     "coverage": "cross-env NODE_ENV=test vitest run --coverage",
     "lint": "eslint .",
-    "tsc": "tsc",
-    "migration:down": "node src/util/rollback.js"
+    "tsc": "tsc && npm run sentry:sourcemaps",
+    "migration:down": "node src/util/rollback.js",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org self-01b --project node-express ./build && sentry-cli sourcemaps upload --org self-01b --project node-express ./build"
   },
   "dependencies": {
+    "@sentry/cli": "^2.32.2",
+    "@sentry/node": "^8.18.0",
     "bcrypt": "^5.1.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
@@ -26,7 +29,9 @@
     "morgan": "~1.9.1",
     "pg": "^8.12.0",
     "sequelize": "^6.37.3",
-    "umzug": "^3.8.1"
+    "umzug": "^3.8.1",
+    "winston": "^3.13.1",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.5.0",

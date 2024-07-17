@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Model, DataTypes } from 'sequelize';
 import {sequelize} from '../db/setup';
 
@@ -7,8 +6,9 @@ class Link extends Model {
   declare addDate:  string;
   declare title: string;
   declare url: string;
-  // declare createdAt: Date;
-  // declare updatedAt: Date;
+  declare type: string;
+  declare createdAt: Date;
+  declare updatedAt: Date;
 }
 
 Link.init({
@@ -28,8 +28,13 @@ Link.init({
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  // createdAt: DataTypes.DATE,
-  // updatedAt: DataTypes.DATE,
+  type:{
+    type: DataTypes.ENUM,
+    values: ['link'],
+    allowNull: false,
+  },
+  createdAt: DataTypes.DATE,
+  updatedAt: DataTypes.DATE,
 }, {
   sequelize,
   underscored: true,
