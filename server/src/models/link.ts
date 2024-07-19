@@ -39,7 +39,6 @@ Link.init({
   sequelize,
   underscored: true,
   modelName: 'link',
-  timestamps: false,
 });
 
 export default Link;

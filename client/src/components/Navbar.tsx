@@ -1,14 +1,13 @@
-import Settings from "./Settings"
-// import Tree from "./Tree/Tree"
+import Settings from "./Settings";
+import Tree from "./Tree";
 
 const Navbar = () => {
-	
-	return (
-		<>
-			<Settings />
-			{/* <Tree /> */}
-		</>
-	)
-}
+  return (
+    <div className="w-1/5">
+      <Settings />
+      <Tree />
+    </div>
+  );
+};
 
-export default Navbar
+export default Navbar;

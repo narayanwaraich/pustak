@@ -43,7 +43,6 @@ Folder.init({
   sequelize,
   underscored: true,
   modelName: 'folder',
-  timestamps: false,
 });
 
 export default Folder;

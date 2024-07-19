@@ -20,7 +20,7 @@ const isUrl = (text: unknown): boolean => {
   } catch (_) {
     return false;  
   }
-  return url.protocol === "http:" || url.protocol === "https:" || url.protocol === "javascript:";
+  return url.protocol === "http:" || url.protocol === "https:" || url.protocol === "javascript:" || url.protocol === "chrome:";
 };
 
 const parseTitle = (title: unknown): string => {

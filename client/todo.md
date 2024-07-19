@@ -1,0 +1,1 @@
+- [ ] Check if the title of a folder/link being added doesn't cross the VARCHAR 255 limit
