@@ -1,5 +1,5 @@
 import Settings from "./Settings";
-import Tree from "./Tree";
+import Tree from "./Tree/Tree";
 
 const Navbar = () => {
   return (

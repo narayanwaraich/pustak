@@ -1,8 +1,8 @@
 import DisplayTree from "./Display";
-import { useFolderTree } from "../../hooks/useFolderTree";
+import { useFolderTree } from "../../services/query/useFolderTree";
 
 const Tree = () => {
-  const { status, folderTree, hashMap, newFolderMutation } = useFolderTree();
+  const { status, folderTree, folderMap, newFolderMutation } = useFolderTree();
 
   const addFolder = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -15,7 +15,7 @@ const Tree = () => {
     return <div>loading data ... </div>;
   }
 
-  // console.log(hashMap);
+  console.log(folderMap);
 
   return (
     <>

@@ -1,7 +1,7 @@
 // import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getFolders, createFolder } from "../services/api/folders";
-import { FolderTree } from "../types/services";
+import { getFolders, createFolder } from "../api/folders";
+import { FolderTree } from "../../types/services";
 
 type HashMap = {
   [key: string]: FolderTree;
@@ -25,7 +25,7 @@ export function useFolderTree() {
   });
 
   let folderTree: FolderTree[] = [];
-  let hashMap = new Map();
+  let folderMap = new Map();
 
   const populateHashTable = (dataset: FolderTree[]) => {
     const hashTable = Object.create(null);
@@ -51,14 +51,14 @@ export function useFolderTree() {
   if (status === "success" && data) {
     const foldersInDb = data;
     const hashTable = populateHashTable(foldersInDb);
-    hashMap = new Map(Object.entries(hashTable));
+    folderMap = new Map(Object.entries(structuredClone(hashTable)));
     folderTree = populateDataTree(foldersInDb, hashTable);
   }
 
   return {
     status,
     folderTree,
-    hashMap,
+    folderMap,
     newFolderMutation,
   };
 }
