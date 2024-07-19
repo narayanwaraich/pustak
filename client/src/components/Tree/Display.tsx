@@ -1,8 +1,10 @@
 import { FolderTree } from "../../types/services";
 import "./style.css";
+import { useSelectedFolder } from "../../services/state/SelectedFolderContext";
 
 const DisplayTree = ({ tree }: { tree: FolderTree[] }) => {
-  // const builtTree: JSX.Element[] = [];
+  const { setFolderId } = useSelectedFolder();
+
   const builtTree: React.ReactNode[] = [];
 
   const buildTree = (tree: FolderTree[], depth: number = 0) => {
@@ -10,7 +12,11 @@ const DisplayTree = ({ tree }: { tree: FolderTree[] }) => {
       if (element.type === "folder") {
         const content = element.title;
         const spacing = content.length + depth * 2;
-        builtTree.push(<p key={element.id}>{content.padStart(spacing)}</p>);
+        builtTree.push(
+          <p key={element.id} onClick={() => setFolderId(Number(element.id))}>
+            {content.padStart(spacing)}
+          </p>,
+        );
       }
       if ("childNodes" in element) {
         const nestedDepth = depth + 2;

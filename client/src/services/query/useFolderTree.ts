@@ -4,7 +4,7 @@ import { getFolders, createFolder } from "../api/folders";
 import { FolderTree } from "../../types/services";
 
 type HashMap = {
-  [key: string]: FolderTree;
+  [key: number]: FolderTree;
 };
 
 export function useFolderTree() {
@@ -24,36 +24,41 @@ export function useFolderTree() {
     },
   });
 
-  let folderTree: FolderTree[] = [];
-  let folderMap = new Map();
+  const populateHashTable = (foldersInDb: FolderTree[]) => {
+    const folderMap = new Map<number, FolderTree>();
 
-  const populateHashTable = (dataset: FolderTree[]) => {
-    const hashTable = Object.create(null);
-    dataset.forEach((element) => (hashTable[element.id] = { ...element }));
-    return hashTable;
+    foldersInDb.forEach((folder) =>
+      folderMap.set(Number(folder.id), { ...folder }),
+    );
+
+    return folderMap;
   };
 
-  const populateDataTree = (dataset: FolderTree[], hashTable: HashMap) => {
+  const populateDataTree = (
+    foldersInDb: FolderTree[],
+    folderMap: Map<number, FolderTree>,
+  ) => {
     const dataTree: FolderTree[] = [];
-    dataset.forEach((element) => {
-      if (element.parentId) {
-        const parent = hashTable[element.parentId];
+    const hashTable = Object.fromEntries(structuredClone(folderMap));
+
+    foldersInDb.forEach((folder) => {
+      if (folder.parentId) {
+        const parent = hashTable[folder.parentId];
+
         if (!parent.childNodes) {
           parent.childNodes = [] as FolderTree[];
         }
-        parent.childNodes.push(hashTable[element.id]);
-      } else dataTree.push(hashTable[element.id]);
+
+        parent.childNodes.push(hashTable[folder.id]);
+      } else dataTree.push(hashTable[folder.id]);
     });
 
     return dataTree;
   };
 
-  if (status === "success" && data) {
-    const foldersInDb = data;
-    const hashTable = populateHashTable(foldersInDb);
-    folderMap = new Map(Object.entries(structuredClone(hashTable)));
-    folderTree = populateDataTree(foldersInDb, hashTable);
-  }
+  const foldersInDb = data ?? [];
+  const folderMap = populateHashTable(foldersInDb);
+  const folderTree = populateDataTree(foldersInDb, folderMap);
 
   return {
     status,

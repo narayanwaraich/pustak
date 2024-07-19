@@ -3,13 +3,16 @@ import { createContext, useState, useContext } from "react";
 type SelectedFolderProviderProps = { children: React.ReactNode };
 
 const SelectedFolderContext = createContext<
-  | { state: number; setState: React.Dispatch<React.SetStateAction<number>> }
+  | {
+      folderId: number;
+      setFolderId: React.Dispatch<React.SetStateAction<number>>;
+    }
   | undefined
 >(undefined);
 
 const SelectedFolderProvider = ({ children }: SelectedFolderProviderProps) => {
-  const [state, setState] = useState(1);
-  const value = { state, setState };
+  const [folderId, setFolderId] = useState(1);
+  const value = { folderId, setFolderId };
   return (
     <SelectedFolderContext.Provider value={value}>
       {children}

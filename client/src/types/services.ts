@@ -22,7 +22,6 @@ export interface Link {
 }
 
 export interface FolderTree extends Folder {
-  // Children?: Folder[],
   links: Link[];
   childNodes?: Folder[];
 }
