@@ -1,6 +1,7 @@
 import { FolderTree } from "../../types/services";
 import "./style.css";
 import { useSelectedFolder } from "../../services/state/SelectedFolderContext";
+import Accordian from "./Accordian";
 
 const DisplayTree = ({ tree }: { tree: FolderTree[] }) => {
   const { setFolderId } = useSelectedFolder();
@@ -12,6 +13,8 @@ const DisplayTree = ({ tree }: { tree: FolderTree[] }) => {
       if (element.type === "folder") {
         const content = element.title;
         const spacing = content.length + depth * 2;
+        if (element.parentId === null)
+          console.log("Top level Headings are: ", element.title);
         builtTree.push(
           <p key={element.id} onClick={() => setFolderId(Number(element.id))}>
             {content.padStart(spacing)}
@@ -27,7 +30,21 @@ const DisplayTree = ({ tree }: { tree: FolderTree[] }) => {
 
   buildTree(tree);
 
-  return <>{<div className="tree">{builtTree}</div>}</>;
+  return (
+    <ul className="">
+      {tree.map((folder) => {
+        if (folder.type === "folder")
+          return (
+            <li>
+              <Accordian title={folder.title} key={folder.id}>
+                {folder.type}
+              </Accordian>
+            </li>
+          );
+      })}
+      {/* <div className="tree">{builtTree}</div> */}
+    </ul>
+  );
 };
 
 export default DisplayTree;

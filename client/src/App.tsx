@@ -1,5 +1,5 @@
 import Navbar from "./components/Navbar";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/Dashboard/Dashboard";
 // import SelectedFolderContext from "./services/state/SelectedFolderContext";
 
 const App = () => {

@@ -1,5 +1,5 @@
-import { useFolderTree } from "../services/query/useFolderTree";
-import { useSelectedFolder } from "../services/state/SelectedFolderContext";
+import { useFolderTree } from "../../services/query/useFolderTree";
+import { useSelectedFolder } from "../../services/state/SelectedFolderContext";
 import Link from "./Link";
 
 const Dashboard = () => {

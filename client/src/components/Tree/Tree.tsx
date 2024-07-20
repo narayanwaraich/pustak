@@ -17,10 +17,10 @@ const Tree = () => {
 
   return (
     <>
-      <form onSubmit={addFolder}>
+      {/* <form onSubmit={addFolder}>
         <input name="title" />
         <button type="submit">add</button>
-      </form>
+      </form> */}
       <DisplayTree tree={folderTree} />
     </>
   );
