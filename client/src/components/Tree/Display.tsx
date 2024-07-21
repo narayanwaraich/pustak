@@ -14,12 +14,12 @@ const DisplayTree = ({ tree }: { tree: FolderTree[] }) => {
         const content = element.title;
         const spacing = content.length + depth * 2;
         if (element.parentId === null)
-          console.log("Top level Headings are: ", element.title);
-        builtTree.push(
-          <p key={element.id} onClick={() => setFolderId(Number(element.id))}>
-            {content.padStart(spacing)}
-          </p>,
-        );
+          // console.log("Top level Headings are: ", element.title);
+          builtTree.push(
+            <p key={element.id} onClick={() => setFolderId(Number(element.id))}>
+              {content.padStart(spacing)}
+            </p>,
+          );
       }
       if ("childNodes" in element) {
         const nestedDepth = depth + 2;
@@ -31,13 +31,22 @@ const DisplayTree = ({ tree }: { tree: FolderTree[] }) => {
   buildTree(tree);
 
   return (
-    <ul className="">
+    <ul className="-mx-2">
       {tree.map((folder) => {
         if (folder.type === "folder")
           return (
             <li>
               <Accordian title={folder.title} key={folder.id}>
-                {folder.type}
+                <ul className="mt-1 px-2">
+                  <li>
+                    <a
+                      className="block rounded-md py-2 pl-9 pr-2 text-sm leading-6 text-gray-700"
+                      href="#"
+                    >
+                      Lorem Ipsum
+                    </a>
+                  </li>
+                </ul>
               </Accordian>
             </li>
           );

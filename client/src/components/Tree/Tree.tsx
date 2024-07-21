@@ -21,7 +21,14 @@ const Tree = () => {
         <input name="title" />
         <button type="submit">add</button>
       </form> */}
-      <DisplayTree tree={folderTree} />
+      <nav className="flex flex-1 flex-col">
+        <ul className="flex flex-1 flex-col gap-y-7" role="list">
+          <li>
+            <DisplayTree tree={folderTree} />
+          </li>
+          <li>{/* Other menu @ the bottom */}</li>
+        </ul>
+      </nav>
     </>
   );
 };

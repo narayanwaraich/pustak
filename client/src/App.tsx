@@ -4,7 +4,7 @@ import Dashboard from "./components/Dashboard/Dashboard";
 
 const App = () => {
   return (
-    <div className="flex bg-gray-400">
+    <div className="flex bg-white">
       <Navbar />
       <Dashboard />
     </div>

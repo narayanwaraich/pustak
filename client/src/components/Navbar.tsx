@@ -3,9 +3,11 @@ import Tree from "./Tree/Tree";
 
 const Navbar = () => {
   return (
-    <div className="w-1/5">
-      <Settings />
-      <Tree />
+    <div className="flex w-72 flex-col">
+      <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
+        <Settings />
+        <Tree />
+      </div>
     </div>
   );
 };
