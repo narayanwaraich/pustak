@@ -8,7 +8,7 @@ const DisplayTree = ({ tree }: { tree: FolderTree[] }) => {
 
   const builtTree: React.ReactNode[] = [];
 
-  const buildTree = (tree: FolderTree[], depth: number = 0) => {
+  const buildTree1 = (tree: FolderTree[], depth: number = 0) => {
     for (const element of tree) {
       if (element.type === "folder") {
         const content = element.title;
@@ -23,35 +23,73 @@ const DisplayTree = ({ tree }: { tree: FolderTree[] }) => {
       }
       if ("childNodes" in element) {
         const nestedDepth = depth + 2;
-        buildTree(element.childNodes as FolderTree[], nestedDepth);
+        buildTree1(element.childNodes as FolderTree[], nestedDepth);
       }
     }
   };
 
-  buildTree(tree);
+  const buildTree = (tree: FolderTree[]) => {
+    const builtTree: React.ReactNode[] = [];
+    for (const folder of tree) {
+      if (folder.type === "folder") {
+        if ("childNodes" in folder) {
+          builtTree.push(
+            <li key={folder.id}>
+              <Accordian title={folder.title} id={folder.id}>
+                <ul className="mt-1 px-2">
+                  {buildTree(folder.childNodes as FolderTree[])}
+                </ul>
+              </Accordian>
+            </li>,
+          );
+        } else {
+          builtTree.push(
+            <li key={folder.id}>
+              <button className="ml-8 flex w-full items-center gap-x-3 rounded-md p-2 text-left text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50">
+                <span onClick={() => setFolderId(folder.id)}>
+                  {folder.title}
+                </span>
+              </button>
+            </li>,
+          );
+        }
+      }
+    }
+    return builtTree;
+  };
+
+  buildTree1(tree);
 
   return (
     <ul className="-mx-2">
-      {tree.map((folder) => {
+      {/* {tree.map((folder) => {
         if (folder.type === "folder")
           return (
-            <li>
-              <Accordian title={folder.title} key={folder.id}>
-                <ul className="mt-1 px-2">
-                  <li>
-                    <a
-                      className="block rounded-md py-2 pl-9 pr-2 text-sm leading-6 text-gray-700"
-                      href="#"
-                    >
-                      Lorem Ipsum
-                    </a>
-                  </li>
-                </ul>
-              </Accordian>
+            <li key={folder.id}>
+              {"childNodes" in folder ? (
+                <Accordian title={folder.title} id={folder.id}>
+                  <ul className="mt-1 px-2">
+                    <li>
+                      <a
+                        className="block rounded-md py-2 pl-9 pr-2 text-sm leading-6 text-gray-700"
+                        href="#"
+                      >
+                        Lorem Ipsum
+                      </a>
+                    </li>
+                  </ul>
+                </Accordian>
+              ) : (
+                <button className="ml-8 flex w-full items-center gap-x-3 rounded-md p-2 text-left text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50">
+                  <span onClick={() => setFolderId(folder.id)}>
+                    {folder.title}
+                  </span>
+                </button>
+              )}
             </li>
           );
-      })}
-      {/* <div className="tree">{builtTree}</div> */}
+      })} */}
+      {buildTree(tree)}
     </ul>
   );
 };

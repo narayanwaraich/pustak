@@ -16,10 +16,11 @@ const Dashboard = () => {
       <Heading />
       <main className="py-10">
         <div className="px-4 sm:px-6 lg:px-8">
-          <div className="relative h-[576px] overflow-hidden rounded-xl border border-dashed border-gray-400 opacity-75">
+          {/* ↓ Set minimum height to full screen minus search area ↴ */}
+          <div className="relative overflow-hidden rounded-xl border border-dashed border-gray-400 opacity-75">
             <ul role="list" className="divide-y divide-gray-100">
               {links.map((link) => (
-                <Link link={link} key={link.id} />
+                <Link link={link} />
               ))}
             </ul>
           </div>
