@@ -1,1 +1,4 @@
-- [ ] If the title length of a folder/link is greater than VARCHAR 255, handle the error 
+- [ ] Add ordering column to folders & links
+- [ ] Add icon img column to db ('data:image/png;base64') -> save the images to a folder
+- [ ] Add admin & disabled columns to user table
+- [ ] Sequelize/Postgresql validation

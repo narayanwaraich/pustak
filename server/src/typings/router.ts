@@ -1,15 +1,19 @@
-export interface FolderParams {
-	title: string,
-	addDate?: string,
-	lastModified?: string,
-	type: 'folder',
-	parentId: number | null
+export interface FolderType {
+  id?: number;
+  title: string | null;
+  addDate: string | null;
+  lastModified: string | null;
+  parentId: number | null;
+  position: number;
+  type: "folder";
 }
 
-export interface LinkParams {
-	title: string,
-	addDate?: string,
-	url: string,
-	type: 'link',
-	parentId: number | null
+export interface BookmarkType {
+  title: string | null;
+  url: string | null;
+  addDate: string | null;
+  icon: string | null;
+  parentId: number | null;
+  position: number;
+  type: "bookmark";
 }

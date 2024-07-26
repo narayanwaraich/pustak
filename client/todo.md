@@ -1,1 +1,1 @@
-- [ ] Check if the title of a folder/link being added doesn't cross the VARCHAR 255 limit
+- [ ] Create a proper bookmarks file importer, with good error handling

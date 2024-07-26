@@ -1,4 +1,5 @@
-import folders from './folders';
-import links from './links';
+import folders from "./folders";
+import bookmarks from "./bookmarks";
+import uploads from "./uploads";
 
-export { folders, links };
+export { folders, bookmarks, uploads };

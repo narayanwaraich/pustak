@@ -3,10 +3,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getFolders, createFolder } from "../api/folders";
 import { FolderTree } from "../../types/services";
 
-type HashMap = {
-  [key: number]: FolderTree;
-};
-
 export function useFolderTree() {
   const queryClient = useQueryClient();
 

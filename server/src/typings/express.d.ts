@@ -1,12 +1,12 @@
-import { Folder, Link } from "../models/associations";
+import { Folder, Bookmark } from "../models";
 
 declare global {
-	namespace Express {
-		export interface Request {
-			folder?: Folder | null;
-			link?: Link | null;
-		}
-	}
+  namespace Express {
+    export interface Request {
+      folder?: Folder | null;
+      bookmark?: Bookmark | null;
+    }
+  }
 }
 
 export {};

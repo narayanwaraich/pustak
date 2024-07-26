@@ -1,16 +1,22 @@
-import { FolderParams, LinkParams } from "../typings/router";
+import { FolderType, BookmarkType } from "../typings/router";
 import { IncorrectDataError, MissingDataError } from "./customErrors";
 
+type LooseObject = Record<string, string | number | null>;
+
+const isObj = (obj: unknown): obj is LooseObject => {
+  return obj !== null && typeof obj === "object";
+};
+
 const isString = (text: unknown): text is string => {
-	return typeof text === 'string' || text instanceof String;
+  return typeof text === "string" || text instanceof String;
 };
 
 const isDate = (date: string): boolean => {
-	return Boolean(Date.parse(date));
+  return Boolean(Date.parse(date));
 };
 
 const isNumber = (num: unknown): num is number => {
-	return typeof num === 'number' || !isNaN(Number(num));
+  return typeof num === "number" || !isNaN(Number(num));
 };
 
 const isUrl = (text: unknown): boolean => {
@@ -18,86 +24,132 @@ const isUrl = (text: unknown): boolean => {
   try {
     url = new URL(String(text));
   } catch (_) {
-    return false;  
+    return false;
   }
-  return url.protocol === "http:" || url.protocol === "https:" || url.protocol === "javascript:" || url.protocol === "chrome:";
+  return (
+    url.protocol === "http:" ||
+    url.protocol === "https:" ||
+    url.protocol === "javascript:" ||
+    url.protocol === "chrome:"
+  );
 };
 
-const parseTitle = (title: unknown): string => {
-	if (!title) throw new MissingDataError('Missing title');
-	if (!isString(title)) throw new IncorrectDataError('Incorrect title: '+(JSON.stringify(title)));
-	return title;
+const parseTitle = (input: unknown): string | null => {
+  if (!input) return null;
+  if (!isString(input))
+    throw new IncorrectDataError("Incorrect title: " + JSON.stringify(input));
+  return input;
 };
 
-const parseDate = (date: unknown): string => {
-	if (!isString(date) || !isDate(date)) throw new IncorrectDataError('Incorrect date: '+(JSON.stringify(date)));
-	return date;
+const parseDate = (input: unknown): string | null => {
+  let date = input;
+  if (!input) return null;
+  if (isString(input) && !isDate(input))
+    date = new Date(Number(date) * 1000).toISOString();
+  if (!isString(date) || !isDate(date))
+    throw new IncorrectDataError("Incorrect date: " + JSON.stringify(date));
+  return date;
 };
 
-const parseId = (id: unknown): number => {
-	if(!isNumber(id) || !Number.isInteger(id)) throw new IncorrectDataError('Incorrect id: '+(JSON.stringify(id)));
-	return id;
+const parseId = (input: unknown): number | null => {
+  if (!input) return null;
+  if (!isNumber(input) || !Number.isInteger(input))
+    throw new IncorrectDataError("Incorrect id: " + JSON.stringify(input));
+  return input;
 };
 
-const parseURL = (url: unknown): string => {
-	if (!url) throw new MissingDataError('Missing url');
-	if (!isString(url) || !isUrl(url)) throw new IncorrectDataError('Incorrect url: '+(JSON.stringify(url)));
-	return url;
+const parseURL = (input: unknown): string | null => {
+  if (!input) return null;
+  if (!isString(input) || !isUrl(input))
+    throw new IncorrectDataError("Incorrect input: " + JSON.stringify(input));
+  return input;
 };
 
-const parseType = (type: unknown): string => {
-	if (!type) throw new MissingDataError('Missing title');
-	if (!isString(type)) throw new IncorrectDataError('Incorrect type: '+(JSON.stringify(type)));
-	return type;
+const parseType = (
+  input: unknown,
+  val: "bookmark" | "folder"
+): "bookmark" | "folder" => {
+  if (!input) throw new MissingDataError("Missing type definition");
+  if (!isString(input) || input.length === 0)
+    throw new IncorrectDataError(
+      "Incorrect type definition: " + JSON.stringify(input)
+    );
+  if (input !== val)
+    throw new IncorrectDataError(
+      "Incorrect type definition: type should be " +
+        val +
+        ", instead it is " +
+        input
+    );
+  return input;
 };
 
-const parseFolder = (type: unknown): 'folder' => {
-	parseType(type);
-	if (type !== 'folder')  throw new IncorrectDataError('Type should be folder. Incorrect type: '+(JSON.stringify(type)));
-	return type;
+const parseBookmarkType = (input: unknown) => {
+  const type = parseType(input, "bookmark");
+  if (type !== "bookmark")
+    throw new IncorrectDataError(
+      "Incorrect type definition: " + JSON.stringify(type)
+    );
+  return type;
 };
 
-const parseLink = (type: unknown): 'link' => {
-	parseType(type);
-	if (type !== 'link')  throw new IncorrectDataError('Type should be link. Incorrect type: '+(JSON.stringify(type)));
-	return type;
+const parseFolderType = (input: unknown) => {
+  const type = parseType(input, "folder");
+  if (type !== "folder")
+    throw new IncorrectDataError(
+      "Incorrect type definition: " + JSON.stringify(type)
+    );
+  return type;
 };
 
-export const validateFolderInput = (input: unknown): FolderParams => {
-	if ( !input || typeof input !== 'object' ) {
-		throw new IncorrectDataError('Incorrect or missing data');
-	};
-
-	if ('type' in input) {
-		const dateNow = new Date().toISOString();
-		const output = {
-			title: ('title' in input) ? parseTitle(input.title) : '',
-			addDate: ('addDate' in input) ? parseDate(input.addDate) : dateNow ,
-			lastModified: ('lastModified' in input) ? parseDate(input.lastModified) : dateNow ,
-			type: ('type' in input) ? parseFolder(input.type) : 'folder' ,
-			parentId: ('parentId' in input && input.parentId !== null) ? parseId(input.parentId) : null ,
-		};
-		return output;
-	}
-
-	throw new MissingDataError('This isn\'t a folder or a link!');
+const parsePosition = (input: unknown): number => {
+  if (!input) return 0;
+  if (!isNumber(input))
+    throw new IncorrectDataError(
+      "Incorrect position: " + JSON.stringify(input)
+    );
+  return input > 0 ? input : 0;
 };
 
-export const validateLinkInput = (input: unknown): LinkParams => {
-	if ( !input || typeof input !== 'object' ) {
-		throw new IncorrectDataError('Incorrect or missing data');
-	};
+const parseIcon = (input: unknown): string | null => {
+  if (!input) return null;
+  if (!isString(input))
+    throw new IncorrectDataError("Incorrect icon: " + JSON.stringify(input));
+  return input;
+};
 
-	if ('url' in  input) {
-		const output = {
-			url: parseURL(input.url),
-			title: ('title' in input && isString(input.title)) ? input.title : '',
-			addDate: ('addDate' in input) ? parseDate(input.addDate) : new Date().toISOString() ,
-			type: ('type' in input) ? parseLink(input.type) : 'link' ,
-			parentId: ('parentId' in input && input.parentId !== null) ? parseId(input.parentId) : null ,
-		};
-		return output;
-	}
+export const validateFolder = (folder: unknown): FolderType => {
+  if (!isObj(folder))
+    throw new IncorrectDataError("Incorrect or missing data:");
 
-	throw new MissingDataError('Missing url');
+  return {
+    title: parseTitle(folder.title),
+    addDate: parseDate(folder.addDate),
+    lastModified: parseDate(folder.lastModified),
+    type: parseFolderType(folder.type),
+    position: parsePosition(folder.position),
+    parentId: parseId(folder.parentId),
+  };
+};
+
+export const validateBookmark = (bookmark: unknown): BookmarkType => {
+  if (!isObj(bookmark))
+    throw new IncorrectDataError("Incorrect or missing data:");
+
+  return {
+    url: parseURL(bookmark.url),
+    title: parseTitle(bookmark.title),
+    addDate: parseDate(bookmark.addDate),
+    type: parseBookmarkType(bookmark.type),
+    position: parsePosition(bookmark.position),
+    parentId: parseId(bookmark.parentId),
+    icon: parseIcon(bookmark.icon),
+  };
+};
+
+export default {
+  parseTitle,
+  parseDate,
+  parseURL,
+  parseIcon,
 };
