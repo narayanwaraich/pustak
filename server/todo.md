@@ -2,3 +2,4 @@
 - [ ] Add icon img column to db ('data:image/png;base64') -> save the images to a folder
 - [ ] Add admin & disabled columns to user table
 - [ ] Sequelize/Postgresql validation
+- [ ] Handle the bookmarks file on the frontend [https://stackoverflow.com/a/72033464/1844139][https://developer.mozilla.org/en-US/docs/Web/API/FileReader]

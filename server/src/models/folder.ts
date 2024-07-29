@@ -36,8 +36,6 @@ Folder.init(
   {
     sequelize,
     underscored: true,
-    modelName: "Folder",
-    tableName: "Folders",
   }
 );
 

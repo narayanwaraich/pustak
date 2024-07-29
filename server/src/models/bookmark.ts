@@ -34,8 +34,6 @@ Bookmark.init(
   {
     sequelize,
     underscored: true,
-    modelName: "Bookmark",
-    tableName: "Bookmarks",
   }
 );
 

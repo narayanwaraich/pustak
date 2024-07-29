@@ -5,6 +5,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production nodemon build/index.js",
     "dev": "cross-env NODE_ENV=development ts-node-dev --files src/index.ts",
+    "custom": "ts-node-dev --files src/util/parseBookmarks.ts",
     "test": "cross-env NODE_ENV=test vitest --ui",
     "coverage": "cross-env NODE_ENV=test vitest run --coverage",
     "lint": "eslint .",
@@ -16,6 +17,7 @@
     "@sentry/cli": "^2.32.2",
     "@sentry/node": "^8.18.0",
     "bcrypt": "^5.1.1",
+    "cheerio": "^1.0.0-rc.12",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",

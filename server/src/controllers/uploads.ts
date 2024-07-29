@@ -1,13 +1,13 @@
 import express from "express";
-import fs from "fs";
-import path from "path";
-import crypto from "crypto";
-import { Folder, Bookmark } from "../models";
+// import fs from "fs";
+// import path from "path";
+// import crypto from "crypto";
+// import { Folder, Bookmark } from "../models";
 import { uploadFile } from "../middleware/fileUploader";
-import { parseBookmarks } from "../util/parseBookmarks";
+// import { testParsing } from "../util/parseBookmarks.js";
 // import { BulkBookmark, BulkFolder } from "../util/parseBookmarks";
 const router = express.Router();
-
+/*
 async function saveIconAsFile(iconData: string): Promise<string> {
   // Extract the MIME type and base64 data
   const matches = iconData.match(/^data:(.+);base64,(.+)$/);
@@ -21,6 +21,8 @@ async function saveIconAsFile(iconData: string): Promise<string> {
 
   // Generate a unique filename
   const filename = `${crypto.randomBytes(16).toString("hex")}.${fileExtension}`;
+  // https://stackoverflow.com/a/9874415/1844139
+  //  the following filepath goes to controllers/public/icons, that needs to be changed [maybe replace __dirname with process.cwd()]
   const filePath = path.join(__dirname, "public", "icons", filename);
 
   // Ensure the directory exists
@@ -32,20 +34,21 @@ async function saveIconAsFile(iconData: string): Promise<string> {
   // Return the relative path to be stored in the database
   return path.join("icons", filename);
 }
+*/
 
-router.post("/", uploadFile, async (req, res) => {
+router.post("/", uploadFile, (req, res) => {
   try {
     const file = req.file;
     // console.log(file);
     if (file) {
-      const htmlContent = fs.readFileSync(file.path, "utf8");
-      const { bookmarks, folders } = parseBookmarks(htmlContent);
+      // const htmlContent = fs.readFileSync(file.path, "utf8");
+      // const { bookmarks, folders } = testParsing(htmlContent);
       //  Change all sequelize settings to use underscore column names or find a lib to change names from camelcase to underscore
       //  run validation on all of input, then add to db
-      // console.log(data);
+      // console.log(bookmarks, folders);
       // await Folder.bulkCreate(data.folders);
       // await Bookmark.bulkCreate(data.bookmarks);
-
+      /*
       const folderIdMap = new Map<number, number>();
       let remainingFolders = [...folders];
       let loop = 0;
@@ -102,7 +105,7 @@ router.post("/", uploadFile, async (req, res) => {
       } catch (error) {
         console.log(error);
       }
-
+*/
       res.status(200).json({
         message: "File uploaded successfully",
         file: file,
