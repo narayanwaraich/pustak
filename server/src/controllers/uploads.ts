@@ -1,13 +1,13 @@
 import express from "express";
-// import fs from "fs";
-// import path from "path";
-// import crypto from "crypto";
-// import { Folder, Bookmark } from "../models";
+import fs from "fs";
+import path from "path";
+import crypto from "crypto";
+import { Folder, Bookmark } from "../models";
 import { uploadFile } from "../middleware/fileUploader";
-// import { testParsing } from "../util/parseBookmarks.js";
+import { parseBookmarks } from "../util/parseBookmarks";
 // import { BulkBookmark, BulkFolder } from "../util/parseBookmarks";
 const router = express.Router();
-/*
+
 async function saveIconAsFile(iconData: string): Promise<string> {
   // Extract the MIME type and base64 data
   const matches = iconData.match(/^data:(.+);base64,(.+)$/);
@@ -23,7 +23,7 @@ async function saveIconAsFile(iconData: string): Promise<string> {
   const filename = `${crypto.randomBytes(16).toString("hex")}.${fileExtension}`;
   // https://stackoverflow.com/a/9874415/1844139
   //  the following filepath goes to controllers/public/icons, that needs to be changed [maybe replace __dirname with process.cwd()]
-  const filePath = path.join(__dirname, "public", "icons", filename);
+  const filePath = path.join(process.cwd(), "public", "icons", filename);
 
   // Ensure the directory exists
   await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
@@ -34,35 +34,35 @@ async function saveIconAsFile(iconData: string): Promise<string> {
   // Return the relative path to be stored in the database
   return path.join("icons", filename);
 }
-*/
 
-router.post("/", uploadFile, (req, res) => {
+router.post("/", uploadFile, async (req, res) => {
   try {
     const file = req.file;
-    // console.log(file);
+    console.log("\x1Bc");
+    console.log(file);
     if (file) {
-      // const htmlContent = fs.readFileSync(file.path, "utf8");
-      // const { bookmarks, folders } = testParsing(htmlContent);
-      //  Change all sequelize settings to use underscore column names or find a lib to change names from camelcase to underscore
-      //  run validation on all of input, then add to db
-      // console.log(bookmarks, folders);
-      // await Folder.bulkCreate(data.folders);
-      // await Bookmark.bulkCreate(data.bookmarks);
-      /*
+      const htmlContent = fs.readFileSync(file.path, "utf8");
+      const { bookmarks, folders } = parseBookmarks(htmlContent);
+      // console.log(bookmarks);
+      // console.log(folders);
       const folderIdMap = new Map<number, number>();
       let remainingFolders = [...folders];
       let loop = 0;
 
+      // Convert this loop
       while (remainingFolders.length > 0) {
+        console.log("folderIdMap : ", folderIdMap);
+        console.log("remainingFolders : ", remainingFolders);
         loop++;
-        if (loop > 40) break;
-        const batchFolders = remainingFolders.filter(
-          (folder) =>
-            folder.temp_parent_id === null ||
-            folderIdMap.has(folder.temp_parent_id)
-        );
+        if (loop > 4) break;
 
         try {
+          const batchFolders = remainingFolders.filter(
+            (folder) =>
+              folder.temp_parent_id === null ||
+              folderIdMap.has(folder.temp_parent_id)
+          );
+          console.log("batchFolders : ", batchFolders);
           const createdFolders = await Folder.bulkCreate(
             batchFolders.map((folder) => ({
               ...folder,
@@ -71,17 +71,17 @@ router.post("/", uploadFile, (req, res) => {
                 : null,
             }))
           );
+          console.log("createdFolders : ", createdFolders);
           createdFolders.forEach((folder, index) => {
-            if (batchFolders[index].id)
-              folderIdMap.set(batchFolders[index].temp_id, folder.id);
+            folderIdMap.set(batchFolders[index].temp_id, folder.id);
           });
+
+          remainingFolders = remainingFolders.filter(
+            (folder) => !batchFolders.includes(folder)
+          );
         } catch (error) {
           console.log(error);
         }
-
-        remainingFolders = remainingFolders.filter(
-          (folder) => !batchFolders.includes(folder)
-        );
       }
 
       const processedBookmarks = await Promise.all(
@@ -105,7 +105,7 @@ router.post("/", uploadFile, (req, res) => {
       } catch (error) {
         console.log(error);
       }
-*/
+
       res.status(200).json({
         message: "File uploaded successfully",
         file: file,

@@ -5,7 +5,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production nodemon build/index.js",
     "dev": "cross-env NODE_ENV=development ts-node-dev --files src/index.ts",
-    "custom": "ts-node-dev --files src/util/parseBookmarks.ts",
+    "parse": "ts-node-dev --files src/util/parseBookmarks.ts",
     "test": "cross-env NODE_ENV=test vitest --ui",
     "coverage": "cross-env NODE_ENV=test vitest run --coverage",
     "lint": "eslint .",

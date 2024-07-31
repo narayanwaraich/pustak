@@ -1,5 +1,6 @@
 - [ ] Add ordering column to folders & links
 - [ ] Add icon img column to db ('data:image/png;base64') -> save the images to a folder
-- [ ] Add admin & disabled columns to user table
+- [ ] Add admin & disabled columns to user table, use sequelizeapp ui maker as an inspiration
 - [ ] Sequelize/Postgresql validation
 - [ ] Handle the bookmarks file on the frontend [https://stackoverflow.com/a/72033464/1844139][https://developer.mozilla.org/en-US/docs/Web/API/FileReader]
+- [ ] Shift bookmarks parsing into a node stream

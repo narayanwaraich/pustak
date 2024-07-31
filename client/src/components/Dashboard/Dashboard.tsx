@@ -9,7 +9,7 @@ const Dashboard = () => {
   const { folderId } = useSelectedFolder();
 
   const folder = folderMap.get(folderId);
-  const links = folder ? folder.links : [];
+  const links = folder?.links ? folder.links : [];
 
   return (
     <div className="lg:pl-72">

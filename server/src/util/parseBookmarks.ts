@@ -1,11 +1,5 @@
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { JSDOM } from "jsdom";
-// import * as cheerio from "cheerio";
 import { FolderType, BookmarkType } from "../typings/router";
-// import { validateFolder, validateBookmark } from "./validator";
 import validate from "./validator";
 import * as fs from "fs";
 
@@ -97,7 +91,7 @@ export const parseBookmarks = (
 };
 */
 
-const testParsing = (htmlContent: string) => {
+export const parseBookmarks = (htmlContent: string) => {
   const pRegex = /<p>/gi;
   const headingRegex = /<\/H3>/gi;
   const anchorRegex = /<\/A>/gi;
@@ -176,37 +170,48 @@ const testParsing = (htmlContent: string) => {
   const handleNextNode = (
     node: Element,
     position = 1,
-    parentId: number | null = null
+    parentId: number | null = null,
+    prevParentId: number | null = null
   ) => {
     let nextNode = node.nextElementSibling;
-    if (!nextNode) nextNode = findNextNode(node);
+    if (!nextNode) {
+      parentId = prevParentId;
+      nextNode = findNextNode(node);
+      // console.log("nextNode : ", nextNode?.innerHTML);
+      // console.log("prevParentId : ", prevParentId);
+    }
     if (nextNode) {
-      if (nextNode.nodeName === "DT") processNode(nextNode, position, parentId);
-      if (nextNode.nodeName === "DL") processFolder(nextNode, position, id);
+      if (nextNode.nodeName === "DT")
+        processNode(nextNode, position, parentId, prevParentId);
+      if (nextNode.nodeName === "DL") processFolder(nextNode, 1, id, parentId);
     }
   };
 
   const processNode = (
     dt: Element,
     position: number,
-    parentId: number | null
+    parentId: number | null,
+    prevParentId: number | null = null
   ) => {
     const dtChildNode = dt.firstElementChild;
     if (dtChildNode) {
       addNode(dtChildNode, position, parentId);
       position++;
     }
-    handleNextNode(dt, position, parentId);
+    // console.log("dtChildNode : ", dtChildNode?.innerHTML);
+    // console.log("prevParentId : ", prevParentId);
+    handleNextNode(dt, position, parentId, prevParentId);
   };
 
   const processFolder = (
     dl: Element,
     position = 1,
-    parentId: number | null = null
+    parentId: number | null = null,
+    prevParentId: number | null = null
   ) => {
     const dt = dl.querySelector("dt");
-    if (dt) processNode(dt, position, parentId);
-    else handleNextNode(dl);
+    if (dt) processNode(dt, position, parentId, prevParentId);
+    else handleNextNode(dl, position, parentId, prevParentId);
   };
 
   const parentdl = doc.body.querySelector("dl");
@@ -214,12 +219,95 @@ const testParsing = (htmlContent: string) => {
   return { bookmarks, folders };
 };
 
-const htmlContent = fs.readFileSync("./uploads/chromeBookmarks.html", "utf8");
+export const parseBookmarksInLoop = (htmlContent: string) => {
+  const pRegex = /<p>/gi;
+  const headingRegex = /<\/H3>/gi;
+  const anchorRegex = /<\/A>/gi;
+
+  const cleanHTML = (string: string) => {
+    string = string.replaceAll(pRegex, "");
+    string = string.replaceAll(headingRegex, "</H3></DT>");
+    string = string.replaceAll(anchorRegex, "</A></DT>");
+    return string;
+  };
+
+  const cleanContent = cleanHTML(htmlContent);
+  const dom = new JSDOM(cleanContent);
+  const doc = dom.window.document;
+
+  const bookmarks: BulkBookmark[] = [];
+  const folders: BulkFolder[] = [];
+  let id = 0;
+
+  const addFolder = (
+    node: Element,
+    position: number,
+    parentId: number | null
+  ) => {
+    id++;
+    folders.push({
+      temp_id: id,
+      title: validate.parseTitle(node.textContent),
+      addDate: validate.parseDate(node.getAttribute("add_date")),
+      lastModified: validate.parseDate(node.getAttribute("last_modified")),
+      temp_parent_id: parentId,
+      position: position,
+      type: "folder",
+    });
+  };
+
+  const addBookmark = (
+    node: Element,
+    position: number,
+    parentId: number | null
+  ) => {
+    bookmarks.push({
+      title: validate.parseTitle(node.textContent),
+      url: validate.parseURL(node.getAttribute("href")),
+      addDate: validate.parseDate(node.getAttribute("add_date")),
+      icon: validate.parseIcon(node.getAttribute("icon")),
+      temp_parent_id: parentId,
+      position: position,
+      type: "bookmark",
+    });
+  };
+
+  const addNode = (
+    node: Element,
+    position: number,
+    parentId: number | null
+  ) => {
+    if (node.nodeName === "H3") {
+      addFolder(node, position, parentId);
+    } else if (node.nodeName === "A") {
+      addBookmark(node, position, parentId);
+    }
+  };
+
+  const processFolder = (parentdl: Element, parentId: number | null = null) => {
+    let position = 0;
+    for (const element of parentdl.children) {
+      if (element.nodeName === "DT") {
+        const child = element.firstElementChild;
+        if (child) addNode(child, position, parentId);
+      } else if (element.nodeName === "DL") {
+        if (element.querySelector("dt")) processFolder(element, id);
+      }
+      position += 10;
+    }
+  };
+
+  const parentdl = doc.body.querySelector("dl");
+  if (parentdl) processFolder(parentdl);
+  return { bookmarks, folders };
+};
+
+const htmlContent = fs.readFileSync("./uploads/chromeBookmark.html", "utf8");
 const filename = "./uploads/test.json";
 
 fs.writeFile(
   filename,
-  JSON.stringify(testParsing(htmlContent), null, 4),
+  JSON.stringify(parseBookmarksInLoop(htmlContent), null, 4),
   function (err) {
     if (err) {
       console.log(err);

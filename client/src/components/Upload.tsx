@@ -34,6 +34,7 @@ const Upload = () => {
         "Content-Type": "multipart/form-data",
       },
     };
+    console.log(formData);
     axios
       .post(url, formData, config)
       .then((response) => {
