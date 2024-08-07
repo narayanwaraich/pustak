@@ -7,17 +7,19 @@ import "./util/instrument";
 import { unknownEndpoint } from "./middleware/middleware";
 import { errorHandler, errorLogger } from "./middleware/errorHandler";
 import { morganMiddleware } from "./middleware/morgan";
-import { folders, bookmarks, uploads } from "./controllers";
+import { folders, bookmarks, uploads, users, login } from "./controllers";
 
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "/public")));
+app.use("/static", express.static(path.join(__dirname, "../public")));
 
+app.use("/api/login", login);
+app.use("/api/users", users);
 app.use("/api/folders", folders);
-app.use("/api/links", bookmarks);
+app.use("/api/bookmarks", bookmarks);
 app.use("/import", uploads);
 
 // if (process.env.NODE_ENV === 'test') {

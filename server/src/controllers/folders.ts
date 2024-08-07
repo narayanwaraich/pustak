@@ -1,7 +1,8 @@
-import express, { RequestHandler, Request } from "express";
-import { Folder, Bookmark } from "../models";
+import express, { RequestHandler, Request, Response } from "express";
+import { Folder, Bookmark, User } from "../models";
 import { FolderType } from "../typings/router";
 import { validateFolder } from "../util/validator";
+import { tokenExtractor } from "../middleware/middleware";
 const router = express.Router();
 
 const folderLookup: RequestHandler = async (req: Request, _res, next) => {
@@ -23,12 +24,18 @@ router.get("/:id", folderLookup, (req, res) => {
   else res.status(404).end();
 });
 
-router.post("/", async (req: Request<object, object, FolderType>, res) => {
-  const payload = validateFolder(req.body);
-
-  const folder = await Folder.create({ ...payload });
-  res.status(201).json(folder);
-});
+router.post(
+  "/",
+  tokenExtractor,
+  async (req: Request<object, object, FolderType>, res: Response) => {
+    const token = req.decodedToken;
+    const user = token ? await User.findByPk(token.id) : null;
+    const id = user ? user.id : null;
+    const payload = validateFolder({ ...req.body, userId: id });
+    const folder = await Folder.create({ ...payload });
+    res.status(201).json(folder);
+  }
+);
 
 router.put("/:id", folderLookup, async (req, res) => {
   if (req.folder) {

@@ -2,14 +2,14 @@ import DisplayTree from "./Display";
 import { useFolderTree } from "../../services/query/useFolderTree";
 
 const Tree = () => {
-  const { status, folderTree, newFolderMutation } = useFolderTree();
+  const { status, folderTree /* newFolderMutation */ } = useFolderTree();
 
-  const addFolder = async (event: React.FormEvent<HTMLFormElement>) => {
+  /*   const addFolder = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const title = event.currentTarget.value;
     event.currentTarget.value = "";
     newFolderMutation.mutate({ title });
-  };
+  }; */
 
   if (status === "pending") {
     return <div>loading data ... </div>;

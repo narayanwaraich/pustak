@@ -1,7 +1,8 @@
-import express, { RequestHandler, Request } from "express";
-import { Bookmark } from "../models";
+import express, { RequestHandler, Request, Response } from "express";
+import { Bookmark, User } from "../models";
 import { BookmarkType } from "../typings/router";
 import { validateBookmark } from "../util/validator";
+import { tokenExtractor } from "../middleware/middleware";
 const router = express.Router();
 
 const bookmarkLookup: RequestHandler = async (req: Request, _res, next) => {
@@ -23,16 +24,21 @@ router.get("/:id", bookmarkLookup, (req, res) => {
   else res.status(404).end();
 });
 
-router.post("/", async (req: Request<object, object, BookmarkType>, res) => {
-  // Handle saving the icon to file, then delete the icon property
-  const payload = validateBookmark(req.body);
-  const bookmark = await Bookmark.create({ ...payload });
-  res.status(201).json(bookmark);
-});
+router.post(
+  "/",
+  tokenExtractor,
+  async (req: Request<object, object, BookmarkType>, res: Response) => {
+    const token = req.decodedToken;
+    const user = token ? await User.findByPk(token.id) : null;
+    const id = user ? user.id : null;
+    const payload = validateBookmark({ ...req.body, userId: id });
+    const bookmark = await Bookmark.create({ ...payload });
+    res.status(201).json(bookmark);
+  }
+);
 
 router.put("/:id", bookmarkLookup, async (req, res) => {
   if (req.bookmark) {
-    // req.link.lastModified = new Date().toISOString();
     await req.bookmark.save();
     res.json(req.folder);
   } else {

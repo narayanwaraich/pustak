@@ -1,6 +1,6 @@
 import { useFolderTree } from "../../services/query/useFolderTree";
 import { useSelectedFolder } from "../../services/state/SelectedFolderContext";
-import Link from "./Link";
+import Bookmark from "./Bookmark";
 import Heading from "./Heading";
 import "./style.css";
 
@@ -9,7 +9,7 @@ const Dashboard = () => {
   const { folderId } = useSelectedFolder();
 
   const folder = folderMap.get(folderId);
-  const links = folder?.links ? folder.links : [];
+  const bookmarks = folder?.Bookmarks ? folder.Bookmarks : [];
 
   return (
     <div className="lg:pl-72">
@@ -19,8 +19,8 @@ const Dashboard = () => {
           {/* ↓ Set minimum height to full screen minus search area ↴ */}
           <div className="relative overflow-hidden rounded-xl border border-dashed border-gray-400 opacity-75">
             <ul role="list" className="divide-y divide-gray-100">
-              {links.map((link) => (
-                <Link link={link} />
+              {bookmarks.map((bookmark) => (
+                <Bookmark bookmark={bookmark} key={bookmark.id} />
               ))}
             </ul>
           </div>

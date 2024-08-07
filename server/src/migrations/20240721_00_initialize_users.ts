@@ -16,9 +16,14 @@ export const up: Migration = async ({ context: queryInterface }) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    created_at: DataTypes.DATE,
+    updated_at: DataTypes.DATE,
   });
   await queryInterface.addColumn("bookmarks", "user_id", {
     type: DataTypes.INTEGER,

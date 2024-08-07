@@ -4,3 +4,4 @@
 - [ ] Sequelize/Postgresql validation
 - [ ] Handle the bookmarks file on the frontend [https://stackoverflow.com/a/72033464/1844139][https://developer.mozilla.org/en-US/docs/Web/API/FileReader]
 - [ ] Shift bookmarks parsing into a node stream
+- [ ] Change the 'userId: null' in parseBookmarks.ts to the proper user id.

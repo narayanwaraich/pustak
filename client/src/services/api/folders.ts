@@ -1,41 +1,42 @@
-import axios, { AxiosResponse } from 'axios';
-import { Folder, FolderTree } from '../../types/services';
+import axios, { AxiosResponse } from "axios";
+import { Folder, FolderTree } from "../../types/services";
+import { baseUrl } from "../../utils/config";
 
-const baseUrl = 'http://localhost:3001/api/folders';
+const url = `${baseUrl}api/folders/`;
 
 export const getFolders = async () => {
-	try {
-		const response: AxiosResponse = await axios.get(baseUrl);
+  try {
+    const response: AxiosResponse = await axios.get(url);
     const tree: FolderTree[] = response.data;
-		return tree;
-	} catch (error) {
-		console.error(error);
-	}
-}
+    return tree;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-export const createFolder = async (newObject:Folder) => {
+export const createFolder = async (newObject: Folder) => {
   try {
-    const response = await axios.post(baseUrl, newObject);
+    const response = await axios.post(url, newObject);
     return response.data;
   } catch (error) {
-		console.error(error);    
+    console.error(error);
   }
-}
+};
 
-export const update = async (id:number, newObject:Folder) => {
+export const update = async (id: number, newObject: Folder) => {
   try {
-    const response = await axios.put(`${baseUrl}/${id}`, newObject);
+    const response = await axios.put(`${url}/${id}`, newObject);
     return response.data;
   } catch (error) {
-		console.error(error);    
+    console.error(error);
   }
-}
+};
 
-export const destroy = async (id:number) => {
+export const destroy = async (id: number) => {
   try {
-    const response = await axios.delete(`${baseUrl}/${id}`);
+    const response = await axios.delete(`${url}/${id}`);
     return response.data;
   } catch (error) {
-		console.error(error);    
+    console.error(error);
   }
-}
+};

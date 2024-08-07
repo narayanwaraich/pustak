@@ -129,6 +129,7 @@ export const validateFolder = (folder: unknown): FolderType => {
     type: parseFolderType(folder.type),
     position: parsePosition(folder.position),
     parentId: parseId(folder.parentId),
+    userId: parseId(folder.userId),
   };
 };
 
@@ -144,6 +145,7 @@ export const validateBookmark = (bookmark: unknown): BookmarkType => {
     position: parsePosition(bookmark.position),
     parentId: parseId(bookmark.parentId),
     icon: parseIcon(bookmark.icon),
+    userId: parseId(bookmark.userId),
   };
 };
 

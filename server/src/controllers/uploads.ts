@@ -21,8 +21,6 @@ async function saveIconAsFile(iconData: string): Promise<string> {
 
   // Generate a unique filename
   const filename = `${crypto.randomBytes(16).toString("hex")}.${fileExtension}`;
-  // https://stackoverflow.com/a/9874415/1844139
-  //  the following filepath goes to controllers/public/icons, that needs to be changed [maybe replace __dirname with process.cwd()]
   const filePath = path.join(process.cwd(), "public", "icons", filename);
 
   // Ensure the directory exists
@@ -32,37 +30,27 @@ async function saveIconAsFile(iconData: string): Promise<string> {
   await fs.promises.writeFile(filePath, base64Data, "base64");
 
   // Return the relative path to be stored in the database
-  return path.join("icons", filename);
+  return path.join("icons", filename).replace(/\\/g, "/");
 }
 
 router.post("/", uploadFile, async (req, res) => {
   try {
     const file = req.file;
-    console.log("\x1Bc");
-    console.log(file);
+    // console.log("\x1Bc");
     if (file) {
       const htmlContent = fs.readFileSync(file.path, "utf8");
+      // Change the 'userId: null' in parseBookmarks.ts to the proper user id.
       const { bookmarks, folders } = parseBookmarks(htmlContent);
-      // console.log(bookmarks);
-      // console.log(folders);
       const folderIdMap = new Map<number, number>();
       let remainingFolders = [...folders];
-      let loop = 0;
 
-      // Convert this loop
       while (remainingFolders.length > 0) {
-        console.log("folderIdMap : ", folderIdMap);
-        console.log("remainingFolders : ", remainingFolders);
-        loop++;
-        if (loop > 4) break;
-
         try {
           const batchFolders = remainingFolders.filter(
             (folder) =>
               folder.temp_parent_id === null ||
               folderIdMap.has(folder.temp_parent_id)
           );
-          console.log("batchFolders : ", batchFolders);
           const createdFolders = await Folder.bulkCreate(
             batchFolders.map((folder) => ({
               ...folder,
@@ -71,7 +59,6 @@ router.post("/", uploadFile, async (req, res) => {
                 : null,
             }))
           );
-          console.log("createdFolders : ", createdFolders);
           createdFolders.forEach((folder, index) => {
             folderIdMap.set(batchFolders[index].temp_id, folder.id);
           });

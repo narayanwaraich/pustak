@@ -6,6 +6,7 @@ class User extends Model {
   declare username: string;
   declare name: string;
   declare email: string;
+  declare password: string;
   declare createdAt: Date;
   declare updatedAt: Date;
 }
@@ -23,6 +24,11 @@ User.init(
     },
     name: DataTypes.STRING,
     email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    password: {
       type: DataTypes.STRING,
       allowNull: false,
     },

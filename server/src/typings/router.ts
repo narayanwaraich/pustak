@@ -1,3 +1,9 @@
+import { JwtPayload } from "jsonwebtoken";
+
+export interface UserToken extends JwtPayload {
+  email: string;
+  id: number;
+}
 export interface FolderType {
   id?: number;
   title: string | null;
@@ -5,6 +11,7 @@ export interface FolderType {
   lastModified: string | null;
   parentId: number | null;
   position: number;
+  userId: number | null;
   type: "folder";
 }
 
@@ -15,5 +22,13 @@ export interface BookmarkType {
   icon: string | null;
   parentId: number | null;
   position: number;
+  userId: number | null;
   type: "bookmark";
+}
+
+export interface UserType {
+  username: string | null;
+  name: string | null;
+  email: string;
+  password: string;
 }

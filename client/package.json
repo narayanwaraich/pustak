@@ -2,6 +2,7 @@
   "name": "pustak",
   "private": true,
   "version": "0.0.0",
+  "homepage": "/",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.51.1",
     "@tanstack/react-query-devtools": "^5.51.1",
+    "@types/node": "^22.1.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",

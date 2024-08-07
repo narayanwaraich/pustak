@@ -22,6 +22,7 @@ Bookmark.init(
     addDate: DataTypes.DATE,
     title: DataTypes.TEXT,
     url: DataTypes.TEXT,
+    icon: DataTypes.TEXT,
     type: {
       type: DataTypes.ENUM,
       values: ["bookmark"],

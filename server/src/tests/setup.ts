@@ -1,6 +1,6 @@
-import { connectToDatabase } from "./db/connect";
-import { sequelize } from "./db/setup";
-import { Folder, Bookmark } from "../models";
+import { connectToDatabase } from "./db_connect";
+import { sequelize } from "./db_connect";
+import { Folder, Bookmark, User } from "../models";
 import { createFolders } from "./api/folder_helper";
 import { createBookmarks } from "./api/bookmark_helper";
 // import { tryQuery } from './debug';
@@ -12,6 +12,7 @@ const startDatabase = async () => {
 
   await Folder.sync({ force: true });
   await Bookmark.sync({ force: true });
+  await User.sync({ force: true });
 
   await createFolders();
   await createBookmarks();
@@ -20,6 +21,7 @@ const startDatabase = async () => {
 const endDatabase = async () => {
   await Bookmark.drop();
   await Folder.drop();
+  await User.drop();
   await sequelize.close();
 };
 

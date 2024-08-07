@@ -1,6 +1,6 @@
 enum Type {
   Folder = "folder",
-  Link = "link",
+  Bookmark = "bookmark",
 }
 
 export interface Folder {
@@ -12,16 +12,17 @@ export interface Folder {
   parentId: number | null;
 }
 
-export interface Link {
+export interface Bookmark {
   id: number;
   url: string;
   title: string;
   addDate: number;
+  icon: string;
   type: Type;
   parentId: number | null;
 }
 
 export interface FolderTree extends Folder {
-  links: Link[];
+  Bookmarks: Bookmark[];
   childNodes?: Folder[];
 }
