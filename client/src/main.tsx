@@ -1,20 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { SelectedFolderProvider } from "./services/state/SelectedFolderContext";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { SelectedFolderProvider } from "./services/selectedFolder";
+import { AuthProvider } from "./services/auth";
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <SelectedFolderProvider>
-      <QueryClientProvider client={queryClient}>
-        <App />
-        <ReactQueryDevtools initialIsOpen={true} />
-      </QueryClientProvider>
-    </SelectedFolderProvider>
+    <BrowserRouter>
+      <SelectedFolderProvider>
+        <AuthProvider>
+          <QueryClientProvider client={queryClient}>
+            <App />
+            {/* <ReactQueryDevtools initialIsOpen={true} /> */}
+          </QueryClientProvider>
+        </AuthProvider>
+      </SelectedFolderProvider>
+    </BrowserRouter>
   </React.StrictMode>,
 );

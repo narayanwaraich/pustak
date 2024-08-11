@@ -1,4 +1,4 @@
-enum Type {
+enum Foldmark {
   Folder = "folder",
   Bookmark = "bookmark",
 }
@@ -8,7 +8,7 @@ export interface Folder {
   title: string;
   addDate: number;
   lastModified: number;
-  type: Type;
+  type: Foldmark;
   parentId: number | null;
 }
 
@@ -18,11 +18,25 @@ export interface Bookmark {
   title: string;
   addDate: number;
   icon: string;
-  type: Type;
+  type: Foldmark;
   parentId: number | null;
 }
 
 export interface FolderTree extends Folder {
   Bookmarks: Bookmark[];
   childNodes?: Folder[];
+}
+
+export interface ChildrenProp {
+  children: React.ReactNode;
+}
+
+export interface UserCredentials {
+  email: string;
+  password: string;
+}
+
+export interface User {
+  token: string;
+  email: string;
 }

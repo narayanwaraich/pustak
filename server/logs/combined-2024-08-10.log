@@ -1,0 +1,1 @@
+{"content_length":"23","level":"http","message":"incoming-request","method":"POST","response_time":2.609,"service":"user-service","status":404,"timestamp":"2024-08-10 18:41:48","url":"//api/login/"}

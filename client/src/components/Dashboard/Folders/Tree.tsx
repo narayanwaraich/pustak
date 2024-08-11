@@ -1,5 +1,5 @@
 import DisplayTree from "./Display";
-import { useFolderTree } from "../../services/query/useFolderTree";
+import { useFolderTree } from "../../../services/query/useFolderTree";
 
 const Tree = () => {
   const { status, folderTree /* newFolderMutation */ } = useFolderTree();

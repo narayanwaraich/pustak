@@ -1,16 +1,14 @@
 import { createContext, useState, useContext } from "react";
+import { ChildrenProp } from "../types/services";
 
-type SelectedFolderProviderProps = { children: React.ReactNode };
+type Value = {
+  folderId: number;
+  setFolderId: React.Dispatch<React.SetStateAction<number>>;
+};
 
-const SelectedFolderContext = createContext<
-  | {
-      folderId: number;
-      setFolderId: React.Dispatch<React.SetStateAction<number>>;
-    }
-  | undefined
->(undefined);
+const SelectedFolderContext = createContext<Value | null>(null);
 
-const SelectedFolderProvider = ({ children }: SelectedFolderProviderProps) => {
+const SelectedFolderProvider = ({ children }: ChildrenProp) => {
   const [folderId, setFolderId] = useState(1);
   const value = { folderId, setFolderId };
   return (
@@ -22,7 +20,7 @@ const SelectedFolderProvider = ({ children }: SelectedFolderProviderProps) => {
 
 const useSelectedFolder = () => {
   const context = useContext(SelectedFolderContext);
-  if (context === undefined) {
+  if (context === null) {
     throw new Error("useSelectedFolder must be used within a CountProvider");
   }
   return context;

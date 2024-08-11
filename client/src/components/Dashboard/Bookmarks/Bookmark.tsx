@@ -1,5 +1,5 @@
-import { Bookmark as BookmarkType } from "../../types/services";
-import { baseUrl } from "../../utils/config";
+import { Bookmark as BookmarkType } from "../../../types/services";
+import { baseUrl } from "../../../utils/config";
 
 const Bookmark = ({ bookmark }: { bookmark: BookmarkType }) => {
   return (

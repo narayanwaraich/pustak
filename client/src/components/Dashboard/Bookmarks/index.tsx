@@ -1,10 +1,10 @@
-import { useFolderTree } from "../../services/query/useFolderTree";
-import { useSelectedFolder } from "../../services/state/SelectedFolderContext";
+import { useFolderTree } from "../../../services/query/useFolderTree";
+import { useSelectedFolder } from "../../../services/selectedFolder";
 import Bookmark from "./Bookmark";
 import Heading from "./Heading";
 import "./style.css";
 
-const Dashboard = () => {
+const Bookmarks = () => {
   const { folderMap } = useFolderTree();
   const { folderId } = useSelectedFolder();
 
@@ -30,4 +30,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Bookmarks;

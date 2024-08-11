@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { Folder, FolderTree } from "../../types/services";
 import { baseUrl } from "../../utils/config";
 
-const url = `${baseUrl}api/folders/`;
+const url = `${baseUrl}/api/folders/`;
 
 export const getFolders = async () => {
   try {

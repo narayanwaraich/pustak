@@ -4,7 +4,7 @@ import {
   DisclosurePanel,
 } from "@headlessui/react";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
-import { useSelectedFolder } from "../../services/state/SelectedFolderContext";
+import { useSelectedFolder } from "../../../services/selectedFolder";
 
 type accordian = { title: string; id: number; children: React.ReactNode };
 
