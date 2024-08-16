@@ -1,2 +1,3 @@
 - [ ] Create a proper bookmarks file importer, with good error handling, while checking & sanitizing the file
 - [ ] Make a library independent sidenav [https://web.dev/articles/building/a-sidenav-component]
+- [ ] Handle error cases of authentication

@@ -1,5 +1,5 @@
-import { useFolderTree } from "../../../services/query/useFolderTree";
-import { useSelectedFolder } from "../../../services/selectedFolder";
+import { useFolderTree } from "@/services/query/useFolderTree";
+import { useSelectedFolder } from "@/services/selectedFolder";
 import Bookmark from "./Bookmark";
 import Heading from "./Heading";
 import "./style.css";
@@ -20,7 +20,12 @@ const Bookmarks = () => {
           <div className="relative overflow-hidden rounded-xl border border-dashed border-gray-400 opacity-75">
             <ul role="list" className="divide-y divide-gray-100">
               {bookmarks.map((bookmark) => (
-                <Bookmark bookmark={bookmark} key={bookmark.id} />
+                <Bookmark
+                  url={bookmark.url}
+                  title={bookmark.title}
+                  icon={bookmark.icon}
+                  key={bookmark.id}
+                />
               ))}
             </ul>
           </div>

@@ -1,24 +1,28 @@
-enum Foldmark {
-  Folder = "folder",
-  Bookmark = "bookmark",
-}
-
 export interface Folder {
   id: number;
   title: string;
   addDate: number;
   lastModified: number;
-  type: Foldmark;
+  type: "folder";
   parentId: number | null;
 }
 
 export interface Bookmark {
+  /**
+   * Bookmark id from database
+   */
   id: number;
+  /**
+   * Bookmark URL
+   */
   url: string;
+  /**
+   * Bookmark Title
+   */
   title: string;
   addDate: number;
   icon: string;
-  type: Foldmark;
+  type: "bookmark";
   parentId: number | null;
 }
 

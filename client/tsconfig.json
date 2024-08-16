@@ -22,6 +22,15 @@
 
     /* Custom */
     "allowJs": true,
+    "baseUrl": "./",
+    "paths": {
+      // "@": ["./src"],
+      "@/*": ["./src/*"]
+      // "components/*": ["./src/components/*"],
+      // "services/*": ["./src/services/*"],
+      // "types/*": ["./src/types/*"],
+      // "utils/*": ["./src/utils/*"]
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

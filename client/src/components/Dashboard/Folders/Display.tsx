@@ -1,6 +1,6 @@
-import { Folder, FolderTree } from "../../../types/services";
+import { Folder, FolderTree } from "@/types/services";
 import "./style.css";
-import { useSelectedFolder } from "../../../services/selectedFolder";
+import { useSelectedFolder } from "@/services/selectedFolder";
 import Accordian from "./Accordian";
 
 const DisplayTree = ({ tree }: { tree: FolderTree[] }) => {
