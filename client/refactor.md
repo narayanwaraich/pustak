@@ -1,0 +1,2 @@
+- [ ] change 'components/ui/notifications/notifications-store.ts' from zustand to reducer
+- [ ] setup onRegister in '@/lib/Auth'

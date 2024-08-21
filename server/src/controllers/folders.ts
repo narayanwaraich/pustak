@@ -15,7 +15,17 @@ const folderLookup: RequestHandler = async (req: Request, _res, next) => {
 };
 
 router.get("/", async (_req, res) => {
-  const folders = await Folder.findAll({ include: Bookmark });
+  const folders = await Folder.findAll({
+    include: { model: Bookmark, separate: true },
+  });
+  res.json(folders);
+});
+
+router.get("/top-level-folders", async (_req, res) => {
+  const folders = await Folder.findAll({
+    where: { parentId: null },
+    include: { model: Folder, as: "Children" /* separate: true */ },
+  });
   res.json(folders);
 });
 
