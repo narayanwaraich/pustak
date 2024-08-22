@@ -1,4 +1,4 @@
-import { Folder, FolderTree } from '@/types/services';
+import { Folder, FolderTree } from '@/types/api';
 import './style.css';
 import { useSelectedFolder } from '@/services/selected-folder';
 import Accordian from './accordian';

@@ -2,7 +2,7 @@ import { createContext, useContext } from 'react';
 import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { login } from './api/login';
 import { useLocalStorage } from './localStorage';
-import { ChildrenProp, UserCredentials, User } from '../types/services';
+import { ChildrenProp, UserCredentials, User } from '../types/api';
 
 type Value = {
   user: User | null;

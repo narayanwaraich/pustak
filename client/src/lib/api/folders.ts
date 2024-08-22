@@ -1,6 +1,6 @@
-import axios, { AxiosResponse } from "axios";
-import { Folder, FolderTree } from "@/types/services";
-import { baseUrl } from "@/utils/config";
+import axios, { AxiosResponse } from 'axios';
+import { Folder, FolderTree } from '@/types/api';
+import { baseUrl } from '@/utils/config';
 
 const url = `${baseUrl}/api/folders/`;
 
@@ -16,7 +16,7 @@ export const getFolders = async () => {
 
 export const getTopLevelFolders = async () => {
   try {
-    const response: AxiosResponse = await axios.get(`${url}top-level-folders`);
+    const response: AxiosResponse = await axios.get(`${url}top-level`);
     return response.data;
   } catch (error) {
     console.error(error);

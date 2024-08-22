@@ -1,4 +1,4 @@
-import { ChildrenProp } from '../types/services';
+import { ChildrenProp } from '../types/api';
 import { useAuth } from '../lib/auth';
 import { useLocation, Navigate } from 'react-router-dom';
 

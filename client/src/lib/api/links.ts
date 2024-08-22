@@ -1,6 +1,6 @@
-import axios, { AxiosResponse } from "axios";
-import { Bookmark } from "../../types/services";
-import { baseUrl } from "../../utils/config";
+import axios, { AxiosResponse } from 'axios';
+import { Bookmark } from '../../types/api';
+import { baseUrl } from '../../utils/config';
 
 const url = `${baseUrl}/api/bookmarks/`;
 

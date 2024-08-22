@@ -1,56 +1,69 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
+import { QueryClient } from '@tanstack/react-query';
 import { ProtectedRoute } from '@/lib/auth';
 import { AppRoot } from './app/root';
+import { topLevelFoldersLoader } from '@/features/Folders/api/get-top-level-folders';
+import { AuthProvider } from '@/lib/auth';
 
-export const createRouter = () =>
+export const createRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
     {
-      path: '/',
-      lazy: async () => {
-        const { LandingRoute } = await import('./landing');
-        return { Component: LandingRoute };
-      },
-    },
-    {
-      path: '/register',
-      lazy: async () => {
-        const { RegisterForm } = await import(
-          '@/features/Auth/components/register-form'
-        );
-        return { Component: RegisterForm };
-      },
-    },
-    {
-      path: '/login',
-      lazy: async () => {
-        const { LoginForm } = await import(
-          '@/features/Auth/components/login-form'
-        );
-        return { Component: LoginForm };
-      },
-    },
-    {
-      path: '/dashboard',
       element: (
-        <ProtectedRoute>
-          <AppRoot />
-        </ProtectedRoute>
+        <AuthProvider>
+          <Outlet />
+        </AuthProvider>
       ),
       children: [
         {
-          path: '',
+          path: '/',
           lazy: async () => {
-            const { DashboardRoute } = await import('./app/dashboard');
-            return { Component: DashboardRoute };
+            const { LandingRoute } = await import('./landing');
+            return { Component: LandingRoute };
+          },
+        },
+        {
+          path: '/register',
+          lazy: async () => {
+            const { RegisterForm } = await import(
+              '@/features/Auth/components/register-form'
+            );
+            return { Component: RegisterForm };
+          },
+        },
+        {
+          path: '/login',
+          lazy: async () => {
+            const { LoginForm } = await import(
+              '@/features/Auth/components/login-form'
+            );
+            return { Component: LoginForm };
+          },
+        },
+        {
+          path: '/dashboard',
+          element: (
+            <ProtectedRoute>
+              <AppRoot />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              path: '',
+              lazy: async () => {
+                const { DashboardRoute } = await import('./app/dashboard');
+                return { Component: DashboardRoute };
+              },
+              loader: topLevelFoldersLoader(queryClient),
+            },
+          ],
+        },
+        {
+          path: '*',
+          lazy: async () => {
+            const { NotFoundRoute } = await import('./not-found');
+            return { Component: NotFoundRoute };
           },
         },
       ],
-    },
-    {
-      path: '*',
-      lazy: async () => {
-        const { NotFoundRoute } = await import('./not-found');
-        return { Component: NotFoundRoute };
-      },
     },
   ]);

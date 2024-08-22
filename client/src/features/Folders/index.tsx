@@ -1,5 +1,5 @@
-import Upload from './upload';
-import Tree from './tree';
+import Upload from './components/upload';
+import Tree from './components/tree';
 
 const Folders = () => {
   return (

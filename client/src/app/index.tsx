@@ -3,7 +3,7 @@ import Auth from "./components/Auth";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Route, Routes } from "react-router-dom"; */
 
-// import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { RouterProvider } from 'react-router-dom';
 
@@ -11,9 +11,9 @@ import { AppProvider } from './main-provider';
 import { createRouter } from './routes';
 
 const AppRouter = () => {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-  const router = useMemo(() => createRouter(), []);
+  const router = useMemo(() => createRouter(queryClient), [queryClient]);
 
   return <RouterProvider router={router} />;
 };

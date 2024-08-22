@@ -21,7 +21,7 @@ router.get("/", async (_req, res) => {
   res.json(folders);
 });
 
-router.get("/top-level-folders", async (_req, res) => {
+router.get("/top-level", async (_req, res) => {
   const folders = await Folder.findAll({
     where: { parentId: null },
     include: { model: Folder, as: "Children" /* separate: true */ },

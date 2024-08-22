@@ -4,13 +4,12 @@ import * as React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { MainErrorFallback } from '@/components/errors/main';
-import { Notifications } from '@/components/ui/notifications';
 import { Spinner } from '@/components/ui/spinner';
 import { AuthProvider } from '@/lib/auth';
 // import { AuthLoader } from '@/lib/auth';
 import { queryClient } from '@/lib/react-query';
 
-import { ChildrenProp } from '@/types/services';
+import { ChildrenProp } from '@/types/api';
 
 export const AppProvider = ({ children }: ChildrenProp) => {
   return (
@@ -24,8 +23,7 @@ export const AppProvider = ({ children }: ChildrenProp) => {
       <ErrorBoundary FallbackComponent={MainErrorFallback}>
         <QueryClientProvider client={queryClient}>
           {/* {import.meta.env.DEV && <ReactQueryDevtools />} */}
-          <Notifications />
-          <AuthProvider>{children}</AuthProvider>
+          {children}
         </QueryClientProvider>
       </ErrorBoundary>
     </React.Suspense>

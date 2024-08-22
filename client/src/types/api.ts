@@ -3,7 +3,7 @@ export interface Folder {
   title: string;
   addDate: number;
   lastModified: number;
-  type: "folder";
+  type: 'folder';
   parentId: number | null;
 }
 
@@ -22,13 +22,17 @@ export interface Bookmark {
   title: string;
   addDate: number;
   icon: string;
-  type: "bookmark";
+  type: 'bookmark';
   parentId: number | null;
 }
 
 export interface FolderTree extends Folder {
   Bookmarks: Bookmark[];
   childNodes?: Folder[];
+}
+
+export interface NestedFolders extends Folder {
+  Children: Folder[];
 }
 
 export interface ChildrenProp {

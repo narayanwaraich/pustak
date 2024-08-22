@@ -1,5 +1,5 @@
-import { createContext, useState, useContext } from "react";
-import { ChildrenProp } from "../types/services";
+import { createContext, useState, useContext } from 'react';
+import { ChildrenProp } from '../types/api';
 
 type Value = {
   folderId: number;
@@ -21,7 +21,7 @@ const SelectedFolderProvider = ({ children }: ChildrenProp) => {
 const useSelectedFolder = () => {
   const context = useContext(SelectedFolderContext);
   if (context === null) {
-    throw new Error("useSelectedFolder must be used within a CountProvider");
+    throw new Error('useSelectedFolder must be used within a CountProvider');
   }
   return context;
 };

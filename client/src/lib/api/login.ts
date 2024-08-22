@@ -1,6 +1,6 @@
-import axios from "axios";
-import { UserCredentials } from "../../types/services";
-import { baseUrl } from "../../utils/config";
+import axios from 'axios';
+import { UserCredentials } from '../../types/api';
+import { baseUrl } from '../../utils/config';
 
 const url = `${baseUrl}/api/login/`;
 

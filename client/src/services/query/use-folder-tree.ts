@@ -1,13 +1,13 @@
 // import { useState, useEffect } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getFolders, createFolder } from "../../lib/api/folders";
-import { FolderTree } from "@/types/services";
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getFolders, createFolder } from '../../lib/api/folders';
+import { FolderTree } from '@/types/api';
 
 export function useFolderTree() {
   const queryClient = useQueryClient();
 
   const { status, data } = useQuery({
-    queryKey: ["folderTree"],
+    queryKey: ['folderTree'],
     queryFn: getFolders,
     refetchOnWindowFocus: false,
     staleTime: Infinity,
@@ -16,7 +16,7 @@ export function useFolderTree() {
   const newFolderMutation = useMutation({
     mutationFn: createFolder,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["folderTree"] });
+      queryClient.invalidateQueries({ queryKey: ['folderTree'] });
     },
   });
 
