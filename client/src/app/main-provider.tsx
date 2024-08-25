@@ -1,6 +1,6 @@
 // import { QueryClientProvider } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import * as React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -25,7 +25,7 @@ export const AppProvider = ({ children }: ChildrenProp) => {
           client={queryClient}
           persistOptions={{ persister }}
         >
-          {/* {import.meta.env.DEV && <ReactQueryDevtools />} */}
+          <ReactQueryDevtools />
           {children}
         </PersistQueryClientProvider>
       </ErrorBoundary>

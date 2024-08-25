@@ -24,6 +24,13 @@ router.get("/:id", bookmarkLookup, (req, res) => {
   else res.status(404).end();
 });
 
+router.get("/folder/:id", async (req, res) => {
+  const bookmarks = await Bookmark.findAll({
+    where: { parentId: req.params.id },
+  });
+  res.json(bookmarks);
+});
+
 router.post(
   "/",
   tokenExtractor,

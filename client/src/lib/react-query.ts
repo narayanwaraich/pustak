@@ -14,7 +14,7 @@ export const queryConfig = {
     refetchOnWindowFocus: false,
     retry: false,
     staleTime: Infinity,
-    gcTime: 1000 * 60 * 60 * 24, //  24 Hours
+    gcTime: 1000 * 60 * 60 * 24 * 5, //  5 Days
   },
 } satisfies DefaultOptions;
 
@@ -26,7 +26,8 @@ export type ApiFnReturnType<
   FnType extends (...args: unknown[]) => Promise<unknown>,
 > = Awaited<ReturnType<FnType>>;
 
-export type QueryConfig<T extends (...args: unknown[]) => unknown> = Omit<
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type QueryConfig<T extends (...args: any[]) => unknown> = Omit<
   ReturnType<T>,
   'queryKey' | 'queryFn'
 >;

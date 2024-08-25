@@ -3,6 +3,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { ProtectedRoute } from '@/lib/auth';
 import { AppRoot } from './app/root';
 import { topLevelFoldersLoader } from '@/features/Folders/api/get-top-level-folders';
+import { bookmarksLoader } from '@/features/Bookmarks/api/get-bookmarks';
 import { AuthProvider } from '@/lib/auth';
 
 export const createRouter = (queryClient: QueryClient) =>
@@ -54,6 +55,15 @@ export const createRouter = (queryClient: QueryClient) =>
                 return { Component: DashboardRoute };
               },
               loader: topLevelFoldersLoader(queryClient),
+            },
+            {
+              path: ':bookmarkId',
+              lazy: async () => {
+                const { DashboardRoute } = await import('./app/dashboard');
+                return { Component: DashboardRoute };
+              },
+              loader: ({ params }) =>
+                bookmarksLoader(queryClient, params.bookmarkId),
             },
           ],
         },
