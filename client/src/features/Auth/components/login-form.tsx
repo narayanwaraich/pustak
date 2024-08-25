@@ -20,6 +20,8 @@ const loginSchema = z.object({
 });
 
 export function LoginForm() {
+  //  Check if already logged in
+
   const { onLogin } = useAuth();
 
   const form = useForm<z.infer<typeof loginSchema>>({

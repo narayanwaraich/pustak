@@ -14,15 +14,6 @@ export const getFolders = async () => {
   }
 };
 
-export const getTopLevelFolders = async () => {
-  try {
-    const response: AxiosResponse = await axios.get(`${url}top-level`);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export const createFolder = async (newObject: Folder) => {
   try {
     const response = await axios.post(url, newObject);

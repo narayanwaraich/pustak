@@ -20,6 +20,8 @@ const registerSchema = z.object({
 });
 
 export const RegisterForm = () => {
+  //  Check if already logged in
+
   const { onLogin } = useAuth();
 
   const form = useForm<z.infer<typeof registerSchema>>({

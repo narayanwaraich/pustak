@@ -1,15 +1,15 @@
-import { QueryClientProvider } from '@tanstack/react-query';
+// import { QueryClientProvider } from '@tanstack/react-query';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import * as React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { MainErrorFallback } from '@/components/errors/main';
 import { Spinner } from '@/components/ui/spinner';
-import { AuthProvider } from '@/lib/auth';
-// import { AuthLoader } from '@/lib/auth';
-import { queryClient } from '@/lib/react-query';
+import { queryClient, createIDBPersister } from '@/lib/react-query';
 
 import { ChildrenProp } from '@/types/api';
+const persister = createIDBPersister();
 
 export const AppProvider = ({ children }: ChildrenProp) => {
   return (
@@ -21,10 +21,13 @@ export const AppProvider = ({ children }: ChildrenProp) => {
       }
     >
       <ErrorBoundary FallbackComponent={MainErrorFallback}>
-        <QueryClientProvider client={queryClient}>
+        <PersistQueryClientProvider
+          client={queryClient}
+          persistOptions={{ persister }}
+        >
           {/* {import.meta.env.DEV && <ReactQueryDevtools />} */}
           {children}
-        </QueryClientProvider>
+        </PersistQueryClientProvider>
       </ErrorBoundary>
     </React.Suspense>
   );
