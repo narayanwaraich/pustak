@@ -1,4 +1,4 @@
-import { ModeToggle } from "@/components/mode-toggle";
+// import { ModeToggle } from "@/components/mode-toggle";
 
 const Heading = () => {
   return (
@@ -107,9 +107,9 @@ const Heading = () => {
                   ></path>
                 </svg>
               </span>
-              <span>
+              {/* <span>
                 <ModeToggle />
-              </span>
+              </span> */}
             </button>
           </div>
         </div>

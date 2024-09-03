@@ -32,7 +32,7 @@ export interface FolderTree extends Folder {
 }
 
 export interface NestedFolders extends Folder {
-  Children: NestedFolders[];
+  Children?: NestedFolders[];
 }
 
 export interface ChildrenProp {

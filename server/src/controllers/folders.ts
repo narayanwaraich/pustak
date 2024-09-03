@@ -1,5 +1,5 @@
 import express, { RequestHandler, Request, Response } from "express";
-import { Folder, Bookmark, User } from "../models";
+import { Folder, User } from "../models";
 import { FolderType } from "../typings/router";
 import { validateFolder } from "../util/validator";
 import { tokenExtractor } from "../middleware/middleware";
@@ -15,16 +15,18 @@ const folderLookup: RequestHandler = async (req: Request, _res, next) => {
 };
 
 router.get("/", async (_req, res) => {
-  const folders = await Folder.findAll({
-    include: { model: Bookmark, separate: true },
-  });
+  const folders = await Folder.findAll();
   res.json(folders);
 });
 
 router.get("/top-level", async (_req, res) => {
+  /*   const folders = await Folder.findAll({
+    where: { parentId: null },
+    include: { model: Folder, as: "Children"},
+  });
+ */
   const folders = await Folder.findAll({
     where: { parentId: null },
-    include: { model: Folder, as: "Children" /* separate: true */ },
   });
   res.json(folders);
 });

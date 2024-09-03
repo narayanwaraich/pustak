@@ -1,0 +1,7 @@
+{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":2.157,"service":"user-service","status":404,"timestamp":"2024-09-02 20:36:11","url":"/static/"}
+{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":0.782,"service":"user-service","status":404,"timestamp":"2024-09-02 21:06:37","url":"/static/"}
+{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":1.37,"service":"user-service","status":404,"timestamp":"2024-09-02 21:13:18","url":"/static/"}
+{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":2.343,"service":"user-service","status":404,"timestamp":"2024-09-02 21:17:19","url":"/static/"}
+{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":0.953,"service":"user-service","status":404,"timestamp":"2024-09-02 21:17:28","url":"/static/"}
+{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":0.45,"service":"user-service","status":404,"timestamp":"2024-09-02 21:18:42","url":"/static/"}
+{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":0.557,"service":"user-service","status":404,"timestamp":"2024-09-02 21:24:07","url":"/static/"}

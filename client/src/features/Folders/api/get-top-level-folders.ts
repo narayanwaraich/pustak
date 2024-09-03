@@ -3,13 +3,15 @@ import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { NestedFolders } from '@/types/api';
 
+const URL = `folders/top-level`;
+
 export const getTopLevelFolders = (): Promise<NestedFolders[]> => {
-  return api.get(`folders/top-level`);
+  return api.get(URL);
 };
 
 export const getTopLevelFoldersQueryOptions = () => {
   return queryOptions({
-    queryKey: ['top-level-folders'],
+    queryKey: [URL],
     queryFn: getTopLevelFolders,
   });
 };

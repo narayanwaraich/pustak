@@ -8,3 +8,4 @@
 - [ ] Change the 'userId: null' in parseBookmarks.ts to the proper user id.
 - [ ] Implement auth in file imports controller
 - [ ] Test auth
+- [ ] Add a column of 'hasFolders' & 'hasBookmarks' to folders' rows.

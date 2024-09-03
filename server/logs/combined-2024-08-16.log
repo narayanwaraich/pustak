@@ -1,6 +1,0 @@
-{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":2.043,"service":"user-service","status":404,"timestamp":"2024-08-16 16:12:59","url":"/static/"}
-{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":0.607,"service":"user-service","status":404,"timestamp":"2024-08-16 17:08:48","url":"/static/"}
-{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":0.651,"service":"user-service","status":404,"timestamp":"2024-08-16 17:12:47","url":"/static/"}
-{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":1.233,"service":"user-service","status":404,"timestamp":"2024-08-16 18:52:17","url":"/static/"}
-{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":1.404,"service":"user-service","status":404,"timestamp":"2024-08-16 18:58:55","url":"/static/"}
-{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":0.627,"service":"user-service","status":404,"timestamp":"2024-08-16 19:03:17","url":"/static/"}

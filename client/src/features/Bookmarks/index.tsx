@@ -9,8 +9,8 @@ import './style.css';
 
 const Bookmarks = () => {
   const params = useParams();
-  const bookmarkId = params.bookmarkId ?? defaultId.toString();
-  const bookmarkQuery = useBookmarks({ bookmarkId });
+  const folderId = params.folderId ?? defaultId.toString();
+  const bookmarkQuery = useBookmarks({ folderId });
 
   if (bookmarkQuery.isLoading) {
     return (

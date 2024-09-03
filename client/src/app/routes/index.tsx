@@ -57,13 +57,13 @@ export const createRouter = (queryClient: QueryClient) =>
               loader: topLevelFoldersLoader(queryClient),
             },
             {
-              path: ':bookmarkId',
+              path: ':folderId',
               lazy: async () => {
                 const { DashboardRoute } = await import('./app/dashboard');
                 return { Component: DashboardRoute };
               },
               loader: ({ params }) =>
-                bookmarksLoader(queryClient, params.bookmarkId),
+                bookmarksLoader(queryClient, params.folderId),
             },
           ],
         },
