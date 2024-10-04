@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { getIDBValueOf, setIDBValueOf } from '@/lib/idb-keyval';
-import { useAllFolders } from '../api/get-all-folders';
-import { useTopLevelFolders } from '../api/get-top-level-folders';
+import { getIDBQueryOptions, setIDBValueOf } from '@/lib/idb-keyval';
+import { getAllFoldersQueryOptions } from '../api/get-all-folders';
+import { getTopLevelFoldersQueryOptions } from '../api/get-top-level-folders';
 import { NestedFolders } from '@/types/api';
+import { useQuery } from '@tanstack/react-query';
 
-const IDBKey = `folders`;
+const IDBKey = `folders/branched`;
 
 export const makeFolders = (folders: NestedFolders[]) => {
   const hashTable = Object.create(null);
@@ -19,45 +20,47 @@ export const makeFolders = (folders: NestedFolders[]) => {
       hashTable[folder.parentId].Children.push(hashTable[folder.id]);
     } else branchedFolders.push(hashTable[folder.id]);
   });
-  setIDBValueOf(IDBKey, branchedFolders);
   return branchedFolders;
 };
 
 export const useFolders = () => {
   const [folders, setFolders] = useState<NestedFolders[]>([]);
-  const [topEnabled, setTopEnabled] = useState(false);
-  const [allEnabled, setAllEnabled] = useState(false);
 
-  const topFolders = useTopLevelFolders({
-    queryConfig: { enabled: topEnabled },
+  const idbQuery = useQuery({ ...getIDBQueryOptions(IDBKey) });
+
+  const topFoldersQuery = useQuery({
+    ...getTopLevelFoldersQueryOptions(),
+    enabled: !idbQuery.data,
   });
-  const allFolders = useAllFolders({
-    queryConfig: { enabled: allEnabled },
+
+  const allFoldersQuery = useQuery({
+    ...getAllFoldersQueryOptions(),
+    enabled: !!topFoldersQuery.data,
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      const idbFolders = await getIDBValueOf(IDBKey);
+    if (idbQuery.data) {
+      setFolders(idbQuery.data);
+    } else {
+      const topFolders = topFoldersQuery.data;
+      const allFolders = allFoldersQuery.data;
 
-      if (idbFolders) setFolders(idbFolders);
-      else setTopEnabled(true);
-      console.log(idbFolders);
-
-      if (topFolders.isSuccess) {
-        setFolders(topFolders.data);
-        console.log(topFolders.data);
-        setAllEnabled(true);
-      }
-
-      if (allFolders.isSuccess) {
-        const branchedFolders = makeFolders(allFolders.data);
-        console.log(branchedFolders);
+      if (topFolders && !allFolders) setFolders(topFolders);
+      if (allFolders) {
+        const branchedFolders = makeFolders(allFolders);
+        setIDBValueOf(IDBKey, branchedFolders);
         setFolders(branchedFolders);
       }
-    };
+    }
+  }, [idbQuery.data, topFoldersQuery.data, allFoldersQuery.data]);
 
-    fetchData();
-  }, []);
-
-  return folders;
+  return {
+    folders,
+    isLoading:
+      idbQuery.isLoading ||
+      topFoldersQuery.isLoading ||
+      allFoldersQuery.isLoading,
+    isError:
+      idbQuery.isError || topFoldersQuery.isError || allFoldersQuery.isError,
+  };
 };

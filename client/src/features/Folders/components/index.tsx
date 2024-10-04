@@ -12,7 +12,7 @@ export default function Folders() {
   //  Change this on backend to only top level folders, not even 1st level Children.
   //  Use the 'hasChildren' column to display arrows.
 
-  const folders = useFolders();
+  const { folders } = useFolders();
 
   return (
     <nav className="flex flex-1 flex-col">

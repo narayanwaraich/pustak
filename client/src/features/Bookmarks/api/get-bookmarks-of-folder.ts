@@ -4,13 +4,14 @@ import { QueryConfig } from '@/lib/react-query';
 import { Bookmark } from '@/types/api';
 
 type getBookmarksProps = { folderId: string };
+
 export const getBookmarks = ({
   folderId,
 }: getBookmarksProps): Promise<Bookmark[]> => {
   return api.get(`bookmarks/folder/${folderId}`);
 };
 
-export const getBookmarksQueryOptions = (folderId: string) => {
+export const getFolderBookmarksQueryOptions = (folderId: string) => {
   return queryOptions({
     queryKey: ['bookmarks', folderId],
     queryFn: () => getBookmarks({ folderId }),
@@ -19,25 +20,25 @@ export const getBookmarksQueryOptions = (folderId: string) => {
 
 type UseBookmarksOptions = {
   folderId: string;
-  queryConfig?: QueryConfig<typeof getBookmarksQueryOptions>;
+  queryConfig?: QueryConfig<typeof getFolderBookmarksQueryOptions>;
 };
 
-export const useBookmarks = ({
+export const useFolderBookmarks = ({
   folderId,
   queryConfig,
 }: UseBookmarksOptions) => {
   return useQuery({
-    ...getBookmarksQueryOptions(folderId),
+    ...getFolderBookmarksQueryOptions(folderId),
     ...queryConfig,
   });
 };
 
-export const defaultId = 1;
+export const defaultId = '1';
 
 export const bookmarksLoader =
   (queryClient: QueryClient, folderId: string | undefined) => async () => {
-    folderId ??= defaultId.toString();
-    const query = getBookmarksQueryOptions(folderId);
+    folderId ??= defaultId;
+    const query = getFolderBookmarksQueryOptions(folderId);
 
     return (
       queryClient.getQueryData(query.queryKey) ??

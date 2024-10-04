@@ -3,7 +3,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { ProtectedRoute } from '@/lib/auth';
 import { AppRoot } from './app/root';
 import { topLevelFoldersLoader } from '@/features/Folders/api/get-top-level-folders';
-import { bookmarksLoader } from '@/features/Bookmarks/api/get-bookmarks';
+import { bookmarksLoader } from '@/features/Bookmarks/api/get-bookmarks-of-folder';
 import { AuthProvider } from '@/lib/auth';
 
 export const createRouter = (queryClient: QueryClient) =>

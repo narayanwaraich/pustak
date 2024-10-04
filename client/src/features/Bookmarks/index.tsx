@@ -2,17 +2,17 @@
 // import { useSelectedFolder } from '@/services/selected-folder';
 import Bookmark from './components/Bookmark';
 import { useParams } from 'react-router-dom';
-import { useBookmarks, defaultId } from './api/get-bookmarks';
+import { useBookmarks } from './hooks/use-bookmarks';
 import { Spinner } from '@/components/ui/spinner';
 import Heading from './components/heading';
 import './style.css';
 
 const Bookmarks = () => {
   const params = useParams();
-  const folderId = params.folderId ?? defaultId.toString();
-  const bookmarkQuery = useBookmarks({ folderId });
+  const folderId = params.folderId ?? '1';
+  const { bookmarks, isLoading, isError } = useBookmarks(folderId);
 
-  if (bookmarkQuery.isLoading) {
+  if (isLoading) {
     return (
       <div className="flex h-48 w-full items-center justify-center">
         <Spinner size="lg" />
@@ -20,7 +20,7 @@ const Bookmarks = () => {
     );
   }
 
-  if (!bookmarkQuery.data) return null;
+  if (isError) return null;
 
   return (
     <div className="lg:pl-72">
@@ -30,7 +30,7 @@ const Bookmarks = () => {
           {/* ↓ Set minimum height to full screen minus search area ↴ */}
           <div className="relative overflow-hidden rounded-xl border border-dashed border-gray-400 opacity-75">
             <ul role="list" className="divide-y divide-gray-100">
-              {bookmarkQuery.data.map((bookmark) => (
+              {bookmarks.map((bookmark) => (
                 <Bookmark
                   url={bookmark.url}
                   title={bookmark.title}

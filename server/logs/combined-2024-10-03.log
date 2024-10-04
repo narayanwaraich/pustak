@@ -1,0 +1,4 @@
+{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":2.296,"service":"user-service","status":404,"timestamp":"2024-10-03 12:18:12","url":"/static/"}
+{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":0.753,"service":"user-service","status":404,"timestamp":"2024-10-03 12:33:26","url":"/static/"}
+{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":0.466,"service":"user-service","status":404,"timestamp":"2024-10-03 12:33:32","url":"/static/"}
+{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":0.595,"service":"user-service","status":404,"timestamp":"2024-10-03 12:33:34","url":"/static/"}

@@ -1,0 +1,3 @@
+{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":1.275,"service":"user-service","status":404,"timestamp":"2024-10-04 09:42:55","url":"/static/"}
+{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":0.95,"service":"user-service","status":404,"timestamp":"2024-10-04 09:53:25","url":"/static/"}
+{"content_length":"23","level":"http","message":"incoming-request","method":"GET","response_time":0.696,"service":"user-service","status":404,"timestamp":"2024-10-04 09:53:48","url":"/static/"}

@@ -6,34 +6,29 @@
     "auditLog": "logs\\.3fa4d5e91883ce1217f62a49f94203b42caa131d-audit.json",
     "files": [
         {
-            "date": 1724540868468,
-            "name": "logs\\combined-2024-08-24.log",
-            "hash": "324a582dea6361c7560e77c62a1358d066c61d8044175dc6fa092a88c3d6a94e"
+            "date": 1727740692179,
+            "name": "logs\\combined-2024-09-30.log",
+            "hash": "3cddec785383c62628d7131bc68b9a3b77050e7538640d37d5065f61421f957f"
         },
         {
-            "date": 1724596508463,
-            "name": "logs\\combined-2024-08-25.log",
-            "hash": "1619b8c5dbfb64a5600473c1a5bc868043c7bf2b53ecbe40f39235909ed52d21"
+            "date": 1727814255089,
+            "name": "logs\\combined-2024-10-01.log",
+            "hash": "cb7afaef1b2f9ecfffebe54599cb118a4de7ea20949ff66d28da24e7866918ee"
         },
         {
-            "date": 1724717439020,
-            "name": "logs\\combined-2024-08-26.log",
-            "hash": "3f4eb2031ab3fc1391910e8f3d76b055cc45fe572ac1e8d34a335d9e3c72e8d1"
+            "date": 1727935486941,
+            "name": "logs\\combined-2024-10-02.log",
+            "hash": "f3f456cfc8cfb09363213b97a1cb3c46285e7a0293e16f5c609bce6c9e108966"
         },
         {
-            "date": 1725051802005,
-            "name": "logs\\combined-2024-08-30.log",
-            "hash": "d51bb97103c395793d4eff5d30709b0f400fb6da259ceaa26623d8246dc3e423"
+            "date": 1727981803881,
+            "name": "logs\\combined-2024-10-03.log",
+            "hash": "0898c6d5519c90933e9a91a8fd936bbd12e3c9ed47679467b6ef79bb9026c4e9"
         },
         {
-            "date": 1725221295319,
-            "name": "logs\\combined-2024-09-01.log",
-            "hash": "6776a63a7473c0608c7dc7835d6a47d812ecbb57b33947aabf492db98e442cd5"
-        },
-        {
-            "date": 1725307652348,
-            "name": "logs\\combined-2024-09-02.log",
-            "hash": "53270dd266d4457a65a4d24ddeeaa085aba3e0d4f6a092c0c7e4e0ebb8b35b89"
+            "date": 1728060175687,
+            "name": "logs\\combined-2024-10-04.log",
+            "hash": "a1cbf09b597b4325d61f17b65be3b69d8e1934abe869cdb62fbab874ff9ddd5a"
         }
     ],
     "hashType": "sha256"

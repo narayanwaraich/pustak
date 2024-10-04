@@ -23,7 +23,7 @@ export interface Bookmark {
   addDate: number;
   icon: string;
   type: 'bookmark';
-  parentId: number | null;
+  parentId: number;
 }
 
 export interface FolderTree extends Folder {
